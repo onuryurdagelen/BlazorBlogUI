@@ -1,0 +1,12 @@
+﻿@using BlogBlazorUI.Models;
+@layout MainLayout
+
+<BSCard CardType="CardType.Card" Class="border-primary mb-3">
+    <BSCard CardType="CardType.Header" alt="Card image cap">@ArticleVM.Name | @ArticleVM.Id</BSCard>
+    <BSCard CardType="CardType.Body" Class="text-primary">
+    </BSCard>
+</BSCard>
+@code {
+    [Parameter]
+    public ArticleVM ArticleVM { get; set; }
+}

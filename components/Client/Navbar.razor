@@ -1,0 +1,42 @@
+﻿@using BlogBlazorUI.Pages.Client;
+@layout MainLayout
+@inherits IndexBase
+<BSNavbar Color="BSColor.Light">
+    <BSContainer Container="Container.Fluid">
+        <BSNavbarBrand>Navbar</BSNavbarBrand>
+        <BSCollapse IsInNavbar="true">
+            <Toggler>
+                <BSNavbarToggle />
+            </Toggler>
+            <Content>
+                <BSNav MarginEnd="Margins.Auto"  MarginBottom="Margins.Small" Class="mb-lg-0">
+                    <BSNavItem IsActive="true" OnClick="@Navigate">
+                        Home
+                    </BSNavItem>
+                    <BSNavItem Url="about">About</BSNavItem>
+                    <BSNavItem Url="contact">Contact</BSNavItem>
+                  
+                </BSNav>
+            </Content>
+        </BSCollapse>
+        <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <BSButton Color="BSColor.Success" IsOutlined="true">Search</BSButton>
+        </form>
+    </BSContainer>
+</BSNavbar>
+
+@code{
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    private async Task Navigate()
+    {
+        NavigationManager.NavigateTo("/");
+        //this.pageIndex = 1;
+        ////this.shouldRender = true;
+        //await this.getArticlesAsPaginately(this.pageIndex);
+
+    }
+}

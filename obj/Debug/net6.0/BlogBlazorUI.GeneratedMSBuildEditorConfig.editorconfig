@@ -1,0 +1,65 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = false
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = browser
+build_property.RootNamespace = BlogBlazorUI
+build_property.RootNamespace = BlogBlazorUI
+build_property.ProjectDir = C:\Users\Administrator\Desktop\AngularBlog\BlogBlazorUI\BlogBlazorUI\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\Administrator\Desktop\AngularBlog\BlogBlazorUI\BlogBlazorUI
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/Administrator/Desktop/AngularBlog/BlogBlazorUI/BlogBlazorUI/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Administrator/Desktop/AngularBlog/BlogBlazorUI/BlogBlazorUI/components/Admin/Navbar.razor]
+build_metadata.AdditionalFiles.TargetPath = Y29tcG9uZW50c1xBZG1pblxOYXZiYXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Administrator/Desktop/AngularBlog/BlogBlazorUI/BlogBlazorUI/components/Client/Article.razor]
+build_metadata.AdditionalFiles.TargetPath = Y29tcG9uZW50c1xDbGllbnRcQXJ0aWNsZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Administrator/Desktop/AngularBlog/BlogBlazorUI/BlogBlazorUI/components/Client/MenuCategory.razor]
+build_metadata.AdditionalFiles.TargetPath = Y29tcG9uZW50c1xDbGllbnRcTWVudUNhdGVnb3J5LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Administrator/Desktop/AngularBlog/BlogBlazorUI/BlogBlazorUI/components/Client/Navbar.razor]
+build_metadata.AdditionalFiles.TargetPath = Y29tcG9uZW50c1xDbGllbnRcTmF2YmFyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Administrator/Desktop/AngularBlog/BlogBlazorUI/BlogBlazorUI/Pages/Admin/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cSW5kZXgucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Administrator/Desktop/AngularBlog/BlogBlazorUI/BlogBlazorUI/Pages/Client/About.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xpZW50XEFib3V0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Administrator/Desktop/AngularBlog/BlogBlazorUI/BlogBlazorUI/Pages/Client/Contact.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xpZW50XENvbnRhY3QucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Administrator/Desktop/AngularBlog/BlogBlazorUI/BlogBlazorUI/Pages/Client/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xpZW50XEluZGV4LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Administrator/Desktop/AngularBlog/BlogBlazorUI/BlogBlazorUI/Shared/AdminLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEFkbWluTGF5b3V0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Administrator/Desktop/AngularBlog/BlogBlazorUI/BlogBlazorUI/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Administrator/Desktop/AngularBlog/BlogBlazorUI/BlogBlazorUI/Shared/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-kisedo13zr

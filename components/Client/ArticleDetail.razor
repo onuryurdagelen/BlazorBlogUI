@@ -1,0 +1,59 @@
+﻿@page "/article/{articleId:int}"
+@using BlogBlazorUI.Models;
+
+@if(ArticleVM != null)
+{
+    <div class="col-md-8">
+        <div class="card border-primary mb-3">
+            <div class="card-header p-2">
+                <div class="row mb-1">
+                    <div class="col-md-12">
+                        <h2 class="mb-2">@ArticleVM.Name | @ArticleVM.Id</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 d-flex justify-content-between align-items-center">
+                        <span class="badge bg-dark"><i class="fas fa-calendar-week"></i> @ArticleVM.PublishDate.ToString("d")</span>
+                        <span class="badge bg-success"><i class="fas fa-folders"></i> @ArticleVM.Category.Name</span>
+                        <span class="badge bg-success"><i class="fas fa-eye"></i> @ArticleVM.ViewCount</span>
+
+                        <span class="badge bg-primary"> <i class="fas fa-comments"></i> @ArticleVM.Comments.Count</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <p>@ArticleVM.ContentMain</p>
+            </div>
+
+        </div>
+    </div>
+}
+
+
+@code {
+    [Parameter]
+    public int articleId { get; set; }
+
+    public string ErrorMessage { get; set; }
+
+    [Inject]
+    HttpClient HttpClient { get; set; }
+
+    public ArticleVM ArticleVM { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        ArticleVM result = await HttpClient.GetFromJsonAsync<ArticleVM>($"articles/{articleId}");
+
+        if(result == null)
+        {
+            ErrorMessage = "Hata!";
+        }
+        else
+        {
+            ArticleVM = result;
+        }
+
+        StateHasChanged();
+    }
+}

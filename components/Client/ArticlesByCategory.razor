@@ -1,0 +1,124 @@
+﻿@page "/articles/{categoryId:int}"
+@page "/articles/{categoryId:int}/page/{index:int}"
+@using BlogBlazorUI.Models;
+@using BlogBlazorUI.Utils;
+
+@if (ArticlesAsCategory == null || ArticlesAsCategory.Count == 0)
+{
+
+    <div class="col-md-8 d-flex justify-content-center">
+        <BSSpinner></BSSpinner>
+    </div>
+
+
+}
+@if (ArticlesAsCategory?.Count > 0)
+{
+    <h3>@CategoryName</h3>
+    <div class="col-md-8">
+        @foreach (var aac in ArticlesAsCategory)
+        {
+            <!--Articles section starts here-->
+            <Article ArticleVM="@aac" />
+            <!--Articles section ends here-->
+
+          
+        }
+        <div class="row mt-2">
+            <Pagination PageCount="@paginationCount"
+                        PageIndex="@pageIndex"
+                        OnPageLinkClick="@OnPageLinkClick"
+                        NextEllipsisPageIcon="fas fa-ellipsis-h"
+                        PrevEllipsisPageIcon="fas fa-ellipsis-h"
+                        MaxPageLinkCount="10"
+                        NextPageIcon="fas fa-sharp fa-solid fa-arrow-right"
+                        PrevPageIcon="fas fa-sharp fa-solid fa-arrow-left">
+            </Pagination>
+        </div>
+      </div>
+}
+
+
+@code {
+    [Parameter]
+    public int categoryId { get; set; }
+    [Parameter]
+    public int index { get; set; }
+    [Inject]
+    public HttpClient HttpClient { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    public string CategoryName { get; set; }
+
+    public int paginationCount { get; set; } 
+
+    public int pageCount { get; set; } = 5;
+
+    public int pageIndex { get; set; } = 1;
+
+    public int TotalCount { get; set; }
+
+    public string ErrorMessage { get; set; }
+
+    public List<ArticleVM> ArticlesAsCategory { get; set; }
+
+    protected async Task OnPageLinkClick(int pageIndex)
+    {
+        this.pageIndex = pageIndex;
+        this.index = pageIndex;
+        System.Console.WriteLine($"PageIndex: {pageIndex}");
+        NavigationManager.NavigateTo($"/articles/{this.categoryId}/page/{pageIndex}");
+    }
+
+    protected async Task getArticlesAsPaginately(int pageIndex)
+    {
+        RestResponse<List<ArticleVM>> result = await HttpClient.GetFromJsonAsync<RestResponse<List<ArticleVM>>>($"Articles/ArticlesAsCategory/{categoryId}/{pageIndex}/{pageCount}");
+
+        if (result == null)
+        {
+            ErrorMessage = "Hata!";
+        }
+        else
+        {
+            ArticlesAsCategory = result.Data;
+            TotalCount = result.TotalCount;
+            CategoryName = ArticlesAsCategory.Select(x => x.Category.Name).FirstOrDefault();
+
+        }
+        StateHasChanged();
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        System.Console.WriteLine("OnInitializedAsync çalıştı...");
+        await getArticlesAsPaginately(this.pageIndex);
+        paginationCount = TotalCount / pageCount;
+        if (TotalCount % pageCount != 0)
+        {
+            this.paginationCount += 1;
+        }
+        StateHasChanged();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        this.ArticlesAsCategory = null;
+        System.Console.WriteLine("Parametre değişti...");
+        if (this.index == 0)
+        {
+            this.pageIndex = 1;
+
+        }
+        await getArticlesAsPaginately(this.pageIndex);
+        paginationCount = TotalCount / pageCount;
+        if (TotalCount % pageCount != 0)
+        {
+            this.paginationCount += 1;
+        }
+        StateHasChanged();
+    }
+
+}

@@ -28,6 +28,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Y29tcG9uZW50c1xDbGllbnRcQXJ0aWNsZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Administrator/Desktop/AngularBlog/BlogBlazorUI/BlogBlazorUI/components/Client/ArticleDetail.razor]
+build_metadata.AdditionalFiles.TargetPath = Y29tcG9uZW50c1xDbGllbnRcQXJ0aWNsZURldGFpbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Administrator/Desktop/AngularBlog/BlogBlazorUI/BlogBlazorUI/components/Client/ArticlesByCategory.razor]
+build_metadata.AdditionalFiles.TargetPath = Y29tcG9uZW50c1xDbGllbnRcQXJ0aWNsZXNCeUNhdGVnb3J5LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Administrator/Desktop/AngularBlog/BlogBlazorUI/BlogBlazorUI/components/Client/MenuCategory.razor]
 build_metadata.AdditionalFiles.TargetPath = Y29tcG9uZW50c1xDbGllbnRcTWVudUNhdGVnb3J5LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 

@@ -5,47 +5,36 @@
 @using BlogBlazorUI.components.Client
 
 @inherits IndexBase
-<div class="container">
-    <div class="row mt-2">
-        <div class="col-md-8">
-            @if(Articles == null || Articles.Count == 0)
-            {
-                <BSSpinner Class="d-flex justify-content-center" />
-            }
-            @if(Articles?.Count > 0)
-            {
-                @foreach (var article in Articles)
-                {
-                    <Article ArticleVM="@article"/>
-                }
-               
-            }
-            @if(Articles == null && ErrorMessage != null)
-            {
-                <h3>Hata Oluştu</h3>
-            }
+
+@if (Articles == null || Articles.Count == 0)
+{
+
+    <div class="col-md-8 d-flex justify-content-end">
+        <BSSpinner></BSSpinner>
+    </div>
+
+   
+}
+@if (Articles?.Count > 0)
+{
+    <div class="col-md-8">
+        @foreach (var article in Articles)
+        {
             <!--Articles section starts here-->
-         
+            <Article ArticleVM="@article" />
             <!--Articles section ends here-->
-        </div>
-        <div class="col-md-4">
-            <MenuCategory></MenuCategory>
-
-    </div>
-    </div>
-    <!--Pagination starts here-->
-    <div class="row mt-2">
-        <Pagination PageCount="paginationCount"
-                    PageIndex="@pageIndex"
-                    OnPageLinkClick="@OnPageClick"
-                    
-                    NextEllipsisPageIcon="fas fa-ellipsis-h"
-                    PrevEllipsisPageIcon="fas fa-ellipsis-h"
-                MaxPageLinkCount="10" 
-                NextPageIcon="fas fa-sharp fa-solid fa-arrow-right" 
-                PrevPageIcon="fas fa-sharp fa-solid fa-arrow-left">
+        }
+        <div class="row mt-2">
+            <Pagination PageCount="paginationCount"
+                        PageIndex="@pageIndex"
+                        OnPageLinkClick="@OnPageClick"
+                        NextEllipsisPageIcon="fas fa-ellipsis-h"
+                        PrevEllipsisPageIcon="fas fa-ellipsis-h"
+                        MaxPageLinkCount="10"
+                        NextPageIcon="fas fa-sharp fa-solid fa-arrow-right"
+                        PrevPageIcon="fas fa-sharp fa-solid fa-arrow-left">
             </Pagination>
+        </div>
     </div>
-    <!--Pagination ends here-->
 
-</div>
+}

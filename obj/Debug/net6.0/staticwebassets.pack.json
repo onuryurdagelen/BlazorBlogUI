@@ -21,8 +21,16 @@
       "PackagePath": "staticwebassets\\service-worker.js"
     },
     {
+      "Id": "C:\\Users\\Administrator\\Desktop\\AngularBlog\\BlogBlazorUI\\BlogBlazorUI\\wwwroot\\assets\\images.png",
+      "PackagePath": "staticwebassets\\assets\\images.png"
+    },
+    {
       "Id": "C:\\Users\\Administrator\\Desktop\\AngularBlog\\BlogBlazorUI\\BlogBlazorUI\\wwwroot\\css\\app.css",
       "PackagePath": "staticwebassets\\css\\app.css"
+    },
+    {
+      "Id": "C:\\Users\\Administrator\\Desktop\\AngularBlog\\BlogBlazorUI\\BlogBlazorUI\\wwwroot\\css\\app.scss",
+      "PackagePath": "staticwebassets\\css\\app.scss"
     },
     {
       "Id": "C:\\Users\\Administrator\\Desktop\\AngularBlog\\BlogBlazorUI\\BlogBlazorUI\\wwwroot\\css\\bootstrap\\bootstrap.min.css",

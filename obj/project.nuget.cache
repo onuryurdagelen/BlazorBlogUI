@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "ko+TB99bIYxHbxrA04lAwfvQlfB7nqYl/bNDagO5nZPDQGE8RGvhPMhyOUkh3LLCP9neOonWFHaI81TtnfB9NQ==",
+  "dgSpecHash": "pgr48ry5+3SlyehRGtOHUdRj5oCGDb7k8PO69LAJviK2mEylZrdZ7U/HLubCeZLou17tCLzdE2/OXreHlOgejQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Administrator\\Desktop\\AngularBlog\\BlogBlazorUI\\BlogBlazorUI\\BlogBlazorUI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Administrator\\.nuget\\packages\\blazorcomponentutilities\\1.7.1\\blazorcomponentutilities.1.7.1.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\blazorise\\1.1.5\\blazorise.1.1.5.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\blazorise.snackbar\\1.1.5\\blazorise.snackbar.1.1.5.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\blazorstrap\\5.1.100\\blazorstrap.5.1.100.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\blazorstrap.v5\\5.1.100\\blazorstrap.v5.5.1.100.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\bootstrapblazor\\7.2.1\\bootstrapblazor.7.2.1.nupkg.sha512",

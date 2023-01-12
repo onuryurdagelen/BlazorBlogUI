@@ -11,6 +11,55 @@
           "lib/netstandard2.0/BlazorComponentUtilities.dll": {}
         }
       },
+      "Blazorise/1.1.5": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "6.0.9",
+          "Microsoft.AspNetCore.Components.Web": "6.0.9",
+          "Microsoft.Extensions.Logging.Abstractions": "6.0.3"
+        },
+        "compile": {
+          "lib/net6.0/Blazorise.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Blazorise.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/Blazorise.props": {}
+        },
+        "buildMultiTargeting": {
+          "buildMultiTargeting/Blazorise.props": {}
+        }
+      },
+      "Blazorise.Snackbar/1.1.5": {
+        "type": "package",
+        "dependencies": {
+          "Blazorise": "1.1.5",
+          "Microsoft.AspNetCore.Components": "6.0.9",
+          "Microsoft.AspNetCore.Components.Web": "6.0.9",
+          "Microsoft.Extensions.Logging.Abstractions": "6.0.3"
+        },
+        "compile": {
+          "lib/net6.0/Blazorise.Snackbar.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Blazorise.Snackbar.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/Blazorise.Snackbar.props": {}
+        },
+        "buildMultiTargeting": {
+          "buildMultiTargeting/Blazorise.Snackbar.props": {}
+        }
+      },
       "BlazorStrap/5.1.100": {
         "type": "package",
         "dependencies": {
@@ -753,6 +802,55 @@
           "lib/netstandard2.0/BlazorComponentUtilities.dll": {}
         }
       },
+      "Blazorise/1.1.5": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "6.0.9",
+          "Microsoft.AspNetCore.Components.Web": "6.0.9",
+          "Microsoft.Extensions.Logging.Abstractions": "6.0.3"
+        },
+        "compile": {
+          "lib/net6.0/Blazorise.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Blazorise.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/Blazorise.props": {}
+        },
+        "buildMultiTargeting": {
+          "buildMultiTargeting/Blazorise.props": {}
+        }
+      },
+      "Blazorise.Snackbar/1.1.5": {
+        "type": "package",
+        "dependencies": {
+          "Blazorise": "1.1.5",
+          "Microsoft.AspNetCore.Components": "6.0.9",
+          "Microsoft.AspNetCore.Components.Web": "6.0.9",
+          "Microsoft.Extensions.Logging.Abstractions": "6.0.3"
+        },
+        "compile": {
+          "lib/net6.0/Blazorise.Snackbar.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Blazorise.Snackbar.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/Blazorise.Snackbar.props": {}
+        },
+        "buildMultiTargeting": {
+          "buildMultiTargeting/Blazorise.Snackbar.props": {}
+        }
+      },
       "BlazorStrap/5.1.100": {
         "type": "package",
         "dependencies": {
@@ -1493,6 +1591,82 @@
         "blazorcomponentutilities.1.7.1.nupkg.sha512",
         "blazorcomponentutilities.nuspec",
         "lib/netstandard2.0/BlazorComponentUtilities.dll"
+      ]
+    },
+    "Blazorise/1.1.5": {
+      "sha512": "MFfCLdI8nnStv0RNWyovRGAIvRIQSpgPJioxuo1C7aXEdZs4jBjykSAnCf0IGZgN+omDQhPb+P8wrGDAAjSOiA==",
+      "type": "package",
+      "path": "blazorise/1.1.5",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Blazorise.png",
+        "LICENSE.md",
+        "blazorise.1.1.5.nupkg.sha512",
+        "blazorise.nuspec",
+        "build/Blazorise.props",
+        "build/Microsoft.AspNetCore.StaticWebAssets.props",
+        "buildMultiTargeting/Blazorise.props",
+        "buildTransitive/Blazorise.props",
+        "lib/net6.0/Blazorise.dll",
+        "lib/net6.0/Blazorise.xml",
+        "lib/net7.0/Blazorise.dll",
+        "lib/net7.0/Blazorise.xml",
+        "staticwebassets/blazorise.css",
+        "staticwebassets/blazorise.min.css",
+        "staticwebassets/breakpoint.js",
+        "staticwebassets/button.js",
+        "staticwebassets/closable.js",
+        "staticwebassets/colorPicker.js",
+        "staticwebassets/datePicker.js",
+        "staticwebassets/dragDrop.js",
+        "staticwebassets/dropdown.js",
+        "staticwebassets/fileEdit.js",
+        "staticwebassets/filePicker.js",
+        "staticwebassets/inputMask.js",
+        "staticwebassets/io.js",
+        "staticwebassets/memoEdit.js",
+        "staticwebassets/numericPicker.js",
+        "staticwebassets/observer.js",
+        "staticwebassets/popper.js",
+        "staticwebassets/table.js",
+        "staticwebassets/textEdit.js",
+        "staticwebassets/theme.js",
+        "staticwebassets/timePicker.js",
+        "staticwebassets/tooltip.js",
+        "staticwebassets/utilities.js",
+        "staticwebassets/validators/DateTimeMaskValidator.js",
+        "staticwebassets/validators/NoValidator.js",
+        "staticwebassets/validators/NumericMaskValidator.js",
+        "staticwebassets/validators/RegExMaskValidator.js",
+        "staticwebassets/vendors/Behave.js",
+        "staticwebassets/vendors/Pickr.js",
+        "staticwebassets/vendors/autoNumeric.js",
+        "staticwebassets/vendors/flatpickr.js",
+        "staticwebassets/vendors/inputmask.js"
+      ]
+    },
+    "Blazorise.Snackbar/1.1.5": {
+      "sha512": "zjyaOkbeuACq6geGeqN/x7HHlv/LPJNEzn8Q9yVB493nVbf3+Yv9i/KeZBqvRAcv/NxTW42mvCJcuT8HWlQmJA==",
+      "type": "package",
+      "path": "blazorise.snackbar/1.1.5",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Blazorise.png",
+        "LICENSE.md",
+        "blazorise.snackbar.1.1.5.nupkg.sha512",
+        "blazorise.snackbar.nuspec",
+        "build/Blazorise.Snackbar.props",
+        "build/Microsoft.AspNetCore.StaticWebAssets.props",
+        "buildMultiTargeting/Blazorise.Snackbar.props",
+        "buildTransitive/Blazorise.Snackbar.props",
+        "lib/net6.0/Blazorise.Snackbar.dll",
+        "lib/net6.0/Blazorise.Snackbar.xml",
+        "lib/net7.0/Blazorise.Snackbar.dll",
+        "lib/net7.0/Blazorise.Snackbar.xml",
+        "staticwebassets/blazorise.snackbar.css",
+        "staticwebassets/blazorise.snackbar.min.css"
       ]
     },
     "BlazorStrap/5.1.100": {
@@ -2551,6 +2725,7 @@
   "projectFileDependencyGroups": {
     "net6.0": [
       "BlazorStrap.V5 >= 5.1.100",
+      "Blazorise.Snackbar >= 1.1.5",
       "BootstrapBlazor >= 7.2.1",
       "Microsoft.AspNetCore.Components.WebAssembly >= 6.0.10",
       "Microsoft.AspNetCore.Components.WebAssembly.DevServer >= 6.0.10",
@@ -2605,6 +2780,10 @@
           "BlazorStrap.V5": {
             "target": "Package",
             "version": "[5.1.100, )"
+          },
+          "Blazorise.Snackbar": {
+            "target": "Package",
+            "version": "[1.1.5, )"
           },
           "BootstrapBlazor": {
             "target": "Package",

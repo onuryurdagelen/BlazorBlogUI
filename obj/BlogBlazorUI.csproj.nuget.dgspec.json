@@ -49,6 +49,10 @@
               "target": "Package",
               "version": "[5.1.100, )"
             },
+            "Blazorise.Snackbar": {
+              "target": "Package",
+              "version": "[1.1.5, )"
+            },
             "BootstrapBlazor": {
               "target": "Package",
               "version": "[7.2.1, )"

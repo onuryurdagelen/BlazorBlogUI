@@ -16,7 +16,10 @@ namespace BlogBlazorUI.Pages.Client
       
         public List<ArticleVM> Articles { get; set; }
 
-       
+        public ArticleVM ArticleVM { get; set; }
+
+        public int articleId { get; set; }
+
         public int pageIndex { get; set; } = 1;
 
         [Parameter]
@@ -33,19 +36,20 @@ namespace BlogBlazorUI.Pages.Client
 
         public int TotalCount { get; set; }
 
-        public bool shouldRender { get; set; } = false;
+        public int counter { get; set; } = 1;
+        //public bool shouldRender { get; set; } = false;
 
         protected  async Task OnPageClick(int pageIndex)
         {
+            this.Articles = null;
             this.pageIndex = pageIndex;
             this.index = pageIndex;
             System.Console.WriteLine($"PageIndex: {pageIndex}");
             NavigationManager.NavigateTo($"/page/{pageIndex}");
-            await getArticlesAsPaginately(this.pageIndex);
         }
         protected async Task getArticlesAsPaginately(int pageIndex)
         {
-            var result = await HttpClient.GetFromJsonAsync<RestResponse<List<ArticleVM>>>($"articles/{pageIndex}/{pageCount}");
+            var result = await HttpClient.GetFromJsonAsync<RestResponse<List<ArticleVM>>>($"articles/{pageIndex}/{this.pageCount}");
 
             if (result == null)
             {
@@ -53,12 +57,14 @@ namespace BlogBlazorUI.Pages.Client
             }
             else
             {
-                Articles = result.Data;
+                this.Articles = result.Data;
                 TotalCount = result.TotalCount;
   
             }
             StateHasChanged();
+
         }
+
         protected override async Task OnInitializedAsync()
         {
            
@@ -67,20 +73,22 @@ namespace BlogBlazorUI.Pages.Client
    
             if (TotalCount % pageCount != 0)
             {
-                this.paginationCount++;
+                this.paginationCount+=1;
             }
             StateHasChanged();
         }
         protected override async Task OnParametersSetAsync()
         {
             System.Console.WriteLine("Parametre değişti");
-            if(this.index == 0)
+            this.Articles = null;
+            if (this.index == 0)
             {
                 this.pageIndex = 1;
-                await getArticlesAsPaginately(this.pageIndex);
+               
             }
+            await getArticlesAsPaginately(this.pageIndex);
+            StateHasChanged();
         }
-
 
     }
 }

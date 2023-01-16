@@ -1,0 +1,53 @@
+﻿@using BlogBlazorUI.Models;
+@layout MainLayout
+
+<div class="row mt-2">
+    <BSCard CardType="CardType.Card" Class="border-primary mb-3">
+        <BSCard CardType="CardType.Header" alt="Card image cap">Archived Articles</BSCard>
+        <BSCard CardType="CardType.Body" Class="text-primary">
+            @if (ArchivedArticlesVM == null || ArchivedArticlesVM.Count == 0)
+            {
+                <div class="row justify-content-center align-items-center">
+                    <BSSpinner></BSSpinner>
+                </div>
+
+            }
+            else
+            {
+                if (ArchivedArticlesVM.Count > 0)
+                {
+                    foreach (var aa in ArchivedArticlesVM)
+                    {
+                        <h3>
+                            <strong>
+                                <a class="btn btn-link" href="/articles/@aa.year/@aa.month">
+                                    <i class="fas fa-arrow-right"></i>  @aa.year @aa.monthName
+                                </a>
+                            </strong>
+                        </h3>
+                    }
+                }
+
+            }
+
+
+        </BSCard>
+    </BSCard>
+
+</div>
+
+@code {
+    [Inject]
+    HttpClient HttpClient { get; set; }
+
+    private List<ArchivedArticleVM> ArchivedArticlesVM { get; set; }
+    public int tillTheYears { get; set; } = 5;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        ArchivedArticlesVM = await HttpClient.GetFromJsonAsync<List<ArchivedArticleVM>>($"Articles/ArchivesArticles/{tillTheYears}");
+
+        StateHasChanged();
+    }
+}

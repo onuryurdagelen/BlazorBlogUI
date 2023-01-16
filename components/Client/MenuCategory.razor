@@ -1,37 +1,39 @@
 ﻿@using BlogBlazorUI.Models;
 @layout MainLayout
 
-<BSCard CardType="CardType.Card" Class="border-primary mb-3">
-    <BSCard CardType="CardType.Header" alt="Card image cap">Categories</BSCard>
-    <BSCard CardType="CardType.Body" Class="text-primary">
-        @if (MenuCategories == null || MenuCategories.Count == 0)
-        {
-            <div class="row justify-content-center align-items-center">
-                <BSSpinner></BSSpinner>
-            </div>
-           
-        }
-        else
-        {
-            if(MenuCategories.Count > 0)
+<div class="row">
+    <BSCard CardType="CardType.Card" Class="border-primary mb-3">
+        <BSCard CardType="CardType.Header" alt="Card image cap">Categories</BSCard>
+        <BSCard CardType="CardType.Body" Class="text-primary">
+            @if (MenuCategories == null || MenuCategories.Count == 0)
             {
-                foreach (var mc in MenuCategories)
+                <div class="row justify-content-center align-items-center">
+                    <BSSpinner></BSSpinner>
+                </div>
+
+            }
+            else
+            {
+                if (MenuCategories.Count > 0)
                 {
-                    <h3>
-                        <strong>
-                            <a class="btn btn-link" href="/articles/@mc.Id">
-                                <i class="fas fa-arrow-right"></i> @mc.Name
-                            </a>
-                        </strong>
-                    </h3>
+                    foreach (var mc in MenuCategories)
+                    {
+                        <h3>
+                            <strong>
+                                <a class="btn btn-link" href="/articles/@mc.Id">
+                                    <i class="fas fa-arrow-right"></i> @mc.Name
+                                </a>
+                            </strong>
+                        </h3>
+                    }
                 }
+
             }
 
-        }
- 
 
+        </BSCard>
     </BSCard>
-</BSCard>
+</div>
 
 
 @code {

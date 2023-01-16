@@ -1,6 +1,185 @@
 ﻿@page "/contact"
-<h3>Contact</h3>
+@using BlogBlazorUI.Models;
+@using System.Text.Json.Serialization;
+@using System.Text.Json;
+@using System.Text;
+@using System.Net;
+@inject ISnackbar Snackbar
+@inject BlazorSpinner.SpinnerService _spinnerService
+<style>
+
+</style>
+
+
+<h3>Contact Us</h3>
+
+<div class="col-md-8">
+
+   
+
+    <div class="card p-2">
+        <div class="card-body">
+            <div class="row mb-2">
+                <label for="exampleFormControlInput1" class="form-label">Full Name</label>
+                <input 
+                    @bind-value="@_contactEmailVM.FullName" 
+                    type="text" 
+
+                    class="form-control 
+                 @((errors?.Where(x => x.key == "FullName").ToArray().Select(x => x.value).ToArray().Length > 0)? " is-invalid" : "" )
+                    " 
+                    id="exampleFormControlInput1" 
+                    placeholder="Full Name">
+                @if(errors != null && errors.Length > 0)
+                {
+                        @foreach (var errorKey in errors)
+                        {
+                            if (errorKey.key == "FullName")
+                            {
+                                @foreach (var errorValue in errorKey.value)
+                                {
+                                    <div class="invalid-feedback" style="display:block;">
+                                        * @errorValue
+                                    </div>
+                                }
+                            }
+
+                        }
+                    
+                }
+
+            </div>
+            <div class="row mb-2">
+                <label for="exampleFormControlInput1" class="form-label">Email Address</label>
+                <input 
+                    @bind-value="@_contactEmailVM.EmailAddress" 
+                    type="email" 
+                    class="form-control
+                     @((errors?.Where(x => x.key == "EmailAddress").ToArray().Select(x => x.value).ToArray().Length > 0)  ? " is-invalid" : "" )
+                    " 
+                    id="exampleFormControlInput1" 
+                    placeholder="Email Address">
+
+                @if(errors != null && errors.Length > 0)
+                {
+                        @foreach (var errorKey in errors)
+                        {
+                            if (errorKey.key == "EmailAddress")
+                            {
+                                @foreach (var errorValue in errorKey.value)
+                                {
+                                    <div class="invalid-feedback" style="display:block;">
+                                        * @errorValue
+                                    </div>
+                                }
+                            }
+
+                        }
+                    
+                }
+            </div>
+            <div class="row mb-2">
+                <label for="exampleFormControlInput1" class="form-label">Subject Title</label>
+                <input 
+                    @bind-value="@_contactEmailVM.SubjectTitle" 
+                    type="text" 
+                    class="form-control
+                    @((errors?.Where(x => x.key == "SubjectTitle").ToArray().Select(x => x.value).ToArray().Length > 0) ? " is-invalid" : "" )
+                    " 
+                    id="exampleFormControlInput1" 
+                    placeholder="Subject Title">
+                @if(errors != null && errors.Length > 0)
+                {
+                    
+
+                        @foreach (var errorKey in errors)
+                        {
+                            if (errorKey.key == "SubjectTitle")
+                            {
+                                @foreach (var errorValue in errorKey.value)
+                                {
+                                    <div class="invalid-feedback" style="display:block;">
+                                        * @errorValue
+                                    </div>
+                                }
+                            }
+                        }
+                    
+                }
+            </div>
+            <div class="row mb-2">
+                <label for="exampleFormControlInput1" class="form-label">Subject Content</label>
+                <input 
+                    @bind-value="@_contactEmailVM.SubjectContent" 
+                    type="text" 
+                    class="form-control
+                    @((errors?.Where(x => x.key == "SubjectContent").ToArray().Select(x => x.value).ToArray().Length > 0) ? " is-invalid" : "" )
+                    " 
+                    id="exampleFormControlInput1" 
+                    placeholder="Subject Content">
+                @if(errors != null && errors.Length > 0)
+                {
+                    
+
+                        @foreach (var errorKey in errors)
+                        {
+                            if (errorKey.key == "SubjectContent")
+                            {
+                                @foreach (var errorValue in errorKey.value)
+                                {
+                                    <div class="invalid-feedback" style="display:block;">
+                                        * @errorValue
+                                    </div>
+                                }
+                            }
+                        }
+                    
+                }
+            </div>
+            <div class="row">
+                <div class="col-md-12 d-flex justify-content-end">
+                    <button class="btn btn-primary" @onclick="@SendContactEmail">Send</button>
+                </div>
+              
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @code {
+    [Inject]
+    public HttpClient HttpClient { get; set; }
 
+
+    ContactEmailVM _contactEmailVM { get; set; } = new ContactEmailVM();
+    private bool processCompleted = true;
+    ErrorVM[] errors;
+    private async Task SendContactEmail()
+    {
+        this.processCompleted = false;
+        _spinnerService.Show();
+        var json = JsonSerializer.Serialize(_contactEmailVM);
+
+        var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
+
+        HttpResponseMessage response =await HttpClient.PostAsync("Helper/SendContactEmail", stringContent);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            errors = await response.Content.ReadFromJsonAsync<ErrorVM[]>();
+            Snackbar.Add("Mail Gönderme İşlemi Başarısız.Lütfen İlgili alanları doldurunuz!", Severity.Error);
+            processCompleted = true;
+            _spinnerService.Hide();
+        }
+        else
+        {
+            errors = null;
+            processCompleted = true;
+            Snackbar.Add("Mail Gönderme İşlemi Başarıyla Gerçekleşti.", Severity.Success);
+            _spinnerService.Hide();
+
+        }
+    }
+    
 }

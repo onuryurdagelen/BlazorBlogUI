@@ -1,0 +1,115 @@
+﻿@page "/articles/{year:int}/{month:int}"
+@page "/articles/{year:int}/{month:int}/page/{index:int}"
+@using BlogBlazorUI.Models;
+@using BlogBlazorUI.Utils;
+
+@if (ArchivedArticles == null || ArchivedArticles.Count == 0)
+{
+
+    <div class="col-md-8 d-flex justify-content-center">
+        <BSSpinner></BSSpinner>
+    </div>
+
+
+}
+@if (ArchivedArticles?.Count > 0)
+{
+    <div class="col-md-8">
+        @foreach (var aa in ArchivedArticles)
+        {
+            <!--Articles section starts here-->
+            <Article ArticleVM="@aa" />
+            <!--Articles section ends here-->
+        }
+        <div class="row mt-2">
+            <Pagination PageCount="@paginationCount"
+                        PageIndex="@pageIndex"
+                        OnPageLinkClick="@OnPageLinkClick"
+                        NextEllipsisPageIcon="fas fa-ellipsis-h"
+                        PrevEllipsisPageIcon="fas fa-ellipsis-h"
+                        MaxPageLinkCount="10"
+                        NextPageIcon="fas fa-sharp fa-solid fa-arrow-right"
+                        PrevPageIcon="fas fa-sharp fa-solid fa-arrow-left">
+            </Pagination>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int year { get; set; }
+    [Parameter]
+    public int month { get; set; }
+    [Parameter]
+    public int index { get; set; }
+    [Inject]
+    public HttpClient HttpClient { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    public string CategoryName { get; set; }
+
+    public int paginationCount { get; set; }
+
+    public int pageCount { get; set; } = 5;
+
+    public int pageIndex { get; set; } = 1;
+
+    public int TotalCount { get; set; }
+
+    public string ErrorMessage { get; set; }
+
+    public List<ArticleVM> ArchivedArticles { get; set; }
+
+    protected async Task OnPageLinkClick(int pageIndex)
+    {
+        this.pageIndex = pageIndex;
+        //this.index = pageIndex;
+        System.Console.WriteLine($"PageIndex: {pageIndex}");
+        NavigationManager.NavigateTo($"/articles/{this.year}/{this.month}/page/{pageIndex}");
+    }
+
+    protected async Task getArticlesAsPaginately(int pageIndex)
+    {
+        RestResponse<List<ArticleVM>> result = await HttpClient.GetFromJsonAsync<RestResponse<List<ArticleVM>>>($"Articles/ListOfArchivedArticles/{year}/{month}/{pageIndex}/{pageCount}");
+
+        if (result == null)
+        {
+            ErrorMessage = "Hata!";
+        }
+        else
+        {
+            ArchivedArticles = result.Data;
+            TotalCount = result.TotalCount;
+
+        }
+        paginationCount = Decimal.ToInt32(Math.Floor(Convert.ToDecimal(TotalCount / pageCount)));
+        if (TotalCount % pageCount != 0)
+        {
+            this.paginationCount += 1;
+        }
+        StateHasChanged();
+
+    }
+
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    System.Console.WriteLine("OnInitializedAsync çalıştı...");
+    //    await getArticlesAsPaginately(this.pageIndex);
+    //}
+
+    protected override async Task OnParametersSetAsync()
+    {
+        this.ArchivedArticles = null;
+        System.Console.WriteLine("Parametre değişti...");
+        if (this.index == 0)
+        {
+            this.pageIndex = 1;
+
+        }
+        await getArticlesAsPaginately(this.pageIndex);
+
+    }
+
+}

@@ -45,9 +45,17 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "BlazorSpinner": {
+              "target": "Package",
+              "version": "[1.3.0, )"
+            },
             "BlazorStrap.V5": {
               "target": "Package",
               "version": "[5.1.100, )"
+            },
+            "Blazored.Toast": {
+              "target": "Package",
+              "version": "[4.0.0, )"
             },
             "Blazorise.Snackbar": {
               "target": "Package",
@@ -69,6 +77,10 @@
             "Microsoft.AspNetCore.WebUtilities": {
               "target": "Package",
               "version": "[2.2.0, )"
+            },
+            "MudBlazor": {
+              "target": "Package",
+              "version": "[6.1.7, )"
             }
           },
           "imports": [

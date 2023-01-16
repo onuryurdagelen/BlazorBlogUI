@@ -881,3 +881,15 @@ C:\Users\Administrator\Desktop\AngularBlog\BlogBlazorUI\BlogBlazorUI\bin\Debug\n
 C:\Users\Administrator\Desktop\AngularBlog\BlogBlazorUI\BlogBlazorUI\bin\Debug\net6.0\Blazorise.Snackbar.dll
 C:\Users\Administrator\Desktop\AngularBlog\BlogBlazorUI\BlogBlazorUI\obj\Debug\net6.0\build-gz\CYUfqIC5.gz
 C:\Users\Administrator\Desktop\AngularBlog\BlogBlazorUI\BlogBlazorUI\obj\Debug\net6.0\build-gz\Jdhis+x2.gz
+C:\Users\Administrator\Desktop\AngularBlog\BlogBlazorUI\BlogBlazorUI\bin\Debug\net6.0\wwwroot\_framework\Blazored.Toast.dll
+C:\Users\Administrator\Desktop\AngularBlog\BlogBlazorUI\BlogBlazorUI\bin\Debug\net6.0\wwwroot\_framework\Blazored.Toast.dll.gz
+C:\Users\Administrator\Desktop\AngularBlog\BlogBlazorUI\BlogBlazorUI\bin\Debug\net6.0\Blazored.Toast.dll
+C:\Users\Administrator\Desktop\AngularBlog\BlogBlazorUI\BlogBlazorUI\obj\Debug\net6.0\build-gz\NJNnCeB+.gz
+C:\Users\Administrator\Desktop\AngularBlog\BlogBlazorUI\BlogBlazorUI\bin\Debug\net6.0\wwwroot\_framework\MudBlazor.dll
+C:\Users\Administrator\Desktop\AngularBlog\BlogBlazorUI\BlogBlazorUI\bin\Debug\net6.0\wwwroot\_framework\MudBlazor.dll.gz
+C:\Users\Administrator\Desktop\AngularBlog\BlogBlazorUI\BlogBlazorUI\bin\Debug\net6.0\MudBlazor.dll
+C:\Users\Administrator\Desktop\AngularBlog\BlogBlazorUI\BlogBlazorUI\obj\Debug\net6.0\build-gz\0Em1vvya.gz
+C:\Users\Administrator\Desktop\AngularBlog\BlogBlazorUI\BlogBlazorUI\bin\Debug\net6.0\wwwroot\_framework\BlazorSpinner.dll
+C:\Users\Administrator\Desktop\AngularBlog\BlogBlazorUI\BlogBlazorUI\bin\Debug\net6.0\wwwroot\_framework\BlazorSpinner.dll.gz
+C:\Users\Administrator\Desktop\AngularBlog\BlogBlazorUI\BlogBlazorUI\bin\Debug\net6.0\BlazorSpinner.dll
+C:\Users\Administrator\Desktop\AngularBlog\BlogBlazorUI\BlogBlazorUI\obj\Debug\net6.0\build-gz\RLRQ6R21.gz

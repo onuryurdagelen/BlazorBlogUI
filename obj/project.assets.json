@@ -11,6 +11,26 @@
           "lib/netstandard2.0/BlazorComponentUtilities.dll": {}
         }
       },
+      "Blazored.Toast/4.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "6.0.12",
+          "Microsoft.AspNetCore.Components.Web": "6.0.12",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0"
+        },
+        "compile": {
+          "lib/net6.0/Blazored.Toast.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0/Blazored.Toast.dll": {}
+        },
+        "build": {
+          "buildTransitive/Blazored.Toast.props": {}
+        },
+        "buildMultiTargeting": {
+          "buildMultiTargeting/Blazored.Toast.props": {}
+        }
+      },
       "Blazorise/1.1.5": {
         "type": "package",
         "dependencies": {
@@ -58,6 +78,19 @@
         },
         "buildMultiTargeting": {
           "buildMultiTargeting/Blazorise.Snackbar.props": {}
+        }
+      },
+      "BlazorSpinner/1.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "6.0.3",
+          "Microsoft.AspNetCore.Components.Web": "6.0.3"
+        },
+        "compile": {
+          "lib/net6.0/BlazorSpinner.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0/BlazorSpinner.dll": {}
         }
       },
       "BlazorStrap/5.1.100": {
@@ -684,6 +717,29 @@
           "lib/netstandard2.0/Microsoft.Net.Http.Headers.dll": {
             "related": ".xml"
           }
+        }
+      },
+      "MudBlazor/6.1.7": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "6.0.11",
+          "Microsoft.AspNetCore.Components.Web": "6.0.11"
+        },
+        "compile": {
+          "lib/net6.0/MudBlazor.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/MudBlazor.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/MudBlazor.props": {}
+        },
+        "buildMultiTargeting": {
+          "buildMultiTargeting/MudBlazor.props": {}
         }
       },
       "System.Buffers/4.5.0": {
@@ -802,6 +858,26 @@
           "lib/netstandard2.0/BlazorComponentUtilities.dll": {}
         }
       },
+      "Blazored.Toast/4.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "6.0.12",
+          "Microsoft.AspNetCore.Components.Web": "6.0.12",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0"
+        },
+        "compile": {
+          "lib/net6.0/Blazored.Toast.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0/Blazored.Toast.dll": {}
+        },
+        "build": {
+          "buildTransitive/Blazored.Toast.props": {}
+        },
+        "buildMultiTargeting": {
+          "buildMultiTargeting/Blazored.Toast.props": {}
+        }
+      },
       "Blazorise/1.1.5": {
         "type": "package",
         "dependencies": {
@@ -849,6 +925,19 @@
         },
         "buildMultiTargeting": {
           "buildMultiTargeting/Blazorise.Snackbar.props": {}
+        }
+      },
+      "BlazorSpinner/1.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "6.0.3",
+          "Microsoft.AspNetCore.Components.Web": "6.0.3"
+        },
+        "compile": {
+          "lib/net6.0/BlazorSpinner.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0/BlazorSpinner.dll": {}
         }
       },
       "BlazorStrap/5.1.100": {
@@ -1477,6 +1566,29 @@
           }
         }
       },
+      "MudBlazor/6.1.7": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "6.0.11",
+          "Microsoft.AspNetCore.Components.Web": "6.0.11"
+        },
+        "compile": {
+          "lib/net6.0/MudBlazor.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/MudBlazor.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/MudBlazor.props": {}
+        },
+        "buildMultiTargeting": {
+          "buildMultiTargeting/MudBlazor.props": {}
+        }
+      },
       "System.Buffers/4.5.0": {
         "type": "package",
         "compile": {
@@ -1593,6 +1705,25 @@
         "lib/netstandard2.0/BlazorComponentUtilities.dll"
       ]
     },
+    "Blazored.Toast/4.0.0": {
+      "sha512": "VeeL6Sz9FQzZG0RoGZeLkrUuE1wQbGpgyDlhZuirSoJ641jpPP6B5E+cu+F+nzHPdO/L7hP8/zb+wJAkBP6bzA==",
+      "type": "package",
+      "path": "blazored.toast/4.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "blazored.toast.4.0.0.nupkg.sha512",
+        "blazored.toast.nuspec",
+        "build/Blazored.Toast.props",
+        "build/Microsoft.AspNetCore.StaticWebAssets.props",
+        "buildMultiTargeting/Blazored.Toast.props",
+        "buildTransitive/Blazored.Toast.props",
+        "icon.png",
+        "lib/net6.0/Blazored.Toast.dll",
+        "lib/net7.0/Blazored.Toast.dll",
+        "staticwebassets/Blazored.Toast.bundle.scp.css"
+      ]
+    },
     "Blazorise/1.1.5": {
       "sha512": "MFfCLdI8nnStv0RNWyovRGAIvRIQSpgPJioxuo1C7aXEdZs4jBjykSAnCf0IGZgN+omDQhPb+P8wrGDAAjSOiA==",
       "type": "package",
@@ -1667,6 +1798,18 @@
         "lib/net7.0/Blazorise.Snackbar.xml",
         "staticwebassets/blazorise.snackbar.css",
         "staticwebassets/blazorise.snackbar.min.css"
+      ]
+    },
+    "BlazorSpinner/1.3.0": {
+      "sha512": "oU83071B3Ylp5RYZCzcn6nq60NPH1xulsEGAtN3GXVW5ok6zvVe+A/V9S7jEzEQtgWvDQSotRu7N4F1Sz/Twvg==",
+      "type": "package",
+      "path": "blazorspinner/1.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "blazorspinner.1.3.0.nupkg.sha512",
+        "blazorspinner.nuspec",
+        "lib/net6.0/BlazorSpinner.dll"
       ]
     },
     "BlazorStrap/5.1.100": {
@@ -2536,6 +2679,29 @@
         "microsoft.net.http.headers.nuspec"
       ]
     },
+    "MudBlazor/6.1.7": {
+      "sha512": "2YdczBg5Yy1VGxfW8OD0srOHp/5jPzIfQzTtR/5UEsWkXzjoKZfvlIC44vNRQ5MvC8+YlaSJq2LfeG1h5gY6QA==",
+      "type": "package",
+      "path": "mudblazor/6.1.7",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "Nuget.png",
+        "build/Microsoft.AspNetCore.StaticWebAssets.props",
+        "build/MudBlazor.props",
+        "buildMultiTargeting/MudBlazor.props",
+        "buildTransitive/MudBlazor.props",
+        "lib/net6.0/MudBlazor.dll",
+        "lib/net6.0/MudBlazor.xml",
+        "lib/net7.0/MudBlazor.dll",
+        "lib/net7.0/MudBlazor.xml",
+        "mudblazor.6.1.7.nupkg.sha512",
+        "mudblazor.nuspec",
+        "staticwebassets/MudBlazor.min.css",
+        "staticwebassets/MudBlazor.min.js"
+      ]
+    },
     "System.Buffers/4.5.0": {
       "sha512": "pL2ChpaRRWI/p4LXyy4RgeWlYF2sgfj/pnVMvBqwNFr5cXg7CXNnWZWxrOONLg8VGdFB8oB+EG2Qw4MLgTOe+A==",
       "type": "package",
@@ -2724,12 +2890,15 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "BlazorSpinner >= 1.3.0",
       "BlazorStrap.V5 >= 5.1.100",
+      "Blazored.Toast >= 4.0.0",
       "Blazorise.Snackbar >= 1.1.5",
       "BootstrapBlazor >= 7.2.1",
       "Microsoft.AspNetCore.Components.WebAssembly >= 6.0.10",
       "Microsoft.AspNetCore.Components.WebAssembly.DevServer >= 6.0.10",
-      "Microsoft.AspNetCore.WebUtilities >= 2.2.0"
+      "Microsoft.AspNetCore.WebUtilities >= 2.2.0",
+      "MudBlazor >= 6.1.7"
     ]
   },
   "packageFolders": {
@@ -2777,9 +2946,17 @@
       "net6.0": {
         "targetAlias": "net6.0",
         "dependencies": {
+          "BlazorSpinner": {
+            "target": "Package",
+            "version": "[1.3.0, )"
+          },
           "BlazorStrap.V5": {
             "target": "Package",
             "version": "[5.1.100, )"
+          },
+          "Blazored.Toast": {
+            "target": "Package",
+            "version": "[4.0.0, )"
           },
           "Blazorise.Snackbar": {
             "target": "Package",
@@ -2801,6 +2978,10 @@
           "Microsoft.AspNetCore.WebUtilities": {
             "target": "Package",
             "version": "[2.2.0, )"
+          },
+          "MudBlazor": {
+            "target": "Package",
+            "version": "[6.1.7, )"
           }
         },
         "imports": [

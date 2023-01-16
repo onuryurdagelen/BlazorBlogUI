@@ -43,7 +43,7 @@ namespace BlogBlazorUI.Pages.Client
         {
             this.Articles = null;
             this.pageIndex = pageIndex;
-            this.index = pageIndex;
+            //this.index = pageIndex;
             System.Console.WriteLine($"PageIndex: {pageIndex}");
             NavigationManager.NavigateTo($"/page/{pageIndex}");
         }
@@ -64,19 +64,6 @@ namespace BlogBlazorUI.Pages.Client
             StateHasChanged();
 
         }
-
-        protected override async Task OnInitializedAsync()
-        {
-           
-            paginationCount = this.pageCount;
-            await getArticlesAsPaginately(this.pageIndex);
-   
-            if (TotalCount % pageCount != 0)
-            {
-                this.paginationCount+=1;
-            }
-            StateHasChanged();
-        }
         protected override async Task OnParametersSetAsync()
         {
             System.Console.WriteLine("Parametre değişti");
@@ -87,6 +74,12 @@ namespace BlogBlazorUI.Pages.Client
                
             }
             await getArticlesAsPaginately(this.pageIndex);
+            paginationCount = Decimal.ToInt32(Math.Floor(Convert.ToDecimal(TotalCount / pageCount)));
+            if (TotalCount % pageCount != 0 && pageCount > 0)
+            {
+                this.paginationCount += 1;
+            }
+ 
             StateHasChanged();
         }
 

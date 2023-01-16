@@ -8,8 +8,10 @@
   "resources": {
     "assembly": {
       "BlazorComponentUtilities.dll": "sha256-UapksNiQg3lu5QM9uVSLyjEuzRH\/7o22fmcmxcLAAeI=",
+      "Blazored.Toast.dll": "sha256-CcIVVy2RoxccsJ8RkcFkTbxkDnmYidEQcP\/mHv3o1Zo=",
       "Blazorise.dll": "sha256-GgbskoQeeQdi+UHmYOie9o2Q19LXZeWlGREzVd\/sI2U=",
       "Blazorise.Snackbar.dll": "sha256-pSyET8glRA+8JKPFv6MkxS\/kVzdbkN\/L\/tss2GbGfOc=",
+      "BlazorSpinner.dll": "sha256-qroKoOiQUj3V1Cgug7cyQLylw4HOFORspABBhlHqeCk=",
       "BlazorStrap.dll": "sha256-6kMmRB+XQlmri3MbVgrBE\/XCBysVsqDkU4OoSL7jdRo=",
       "BlazorStrap.V5.dll": "sha256-\/sAdLFTgfp+Cbx+Q9cEEovIgZk8qkjODuSiao3r\/Lys=",
       "BootstrapBlazor.dll": "sha256-tdjF+MxICErZlHdGgQ+Ck7pJnjEnh2NaPbJzcsJx+VE=",
@@ -44,6 +46,7 @@
       "Microsoft.JSInterop.dll": "sha256-f+J4A5N3h7YHoA6RK6isPqRQBhMgDi4wEGUnCC32ag0=",
       "Microsoft.JSInterop.WebAssembly.dll": "sha256-o6JgCcWyug2MjyXwx54FHRaCf1DjpJzEkG2GKhlSyL4=",
       "Microsoft.Net.Http.Headers.dll": "sha256-P66ftDrXwc6ayND8uYzIk0CPQy1GjNZAPHx9RMhi3V4=",
+      "MudBlazor.dll": "sha256-MqG8xEvSuThE5V1kA2DhFSXLGBMSeswFleIbEZuuX1Y=",
       "System.IO.Pipelines.dll": "sha256-6+E55JXedimdw1c1bDtVg4K7XuWjVWVTifH8QpfzXSY=",
       "Microsoft.CSharp.dll": "sha256-ZScUDIiTxo1dQUE6uip4qB29zPhkN4IpLP8YotBXZKA=",
       "Microsoft.VisualBasic.Core.dll": "sha256-GO2Nim3i77UgTSYVu2OkMRHAiuFQQFGvX93YzIyu7zg=",
@@ -211,13 +214,13 @@
       "mscorlib.dll": "sha256-cx\/3nJhFns3tZhQNQOyiRyKJESKxOjLVufzWnri6KSA=",
       "netstandard.dll": "sha256-yWufW5W4SSfjocBcWTEDqnFwTd\/VYtLMc2Y9mPmlggc=",
       "System.Private.CoreLib.dll": "sha256-H009wzPwRoDZlwvpN4KLCsUwN7Y1AmjKB3PIEHA7ObQ=",
-      "BlogBlazorUI.dll": "sha256-hLPtEZ9wnCtaM0VIh\/zsC32t3lO2\/I8k3JhVX9b5cNA="
+      "BlogBlazorUI.dll": "sha256-y9A0beKE3Z9khaSZcg1aBWywc1hYLAgIgP4y690D6Aw="
     },
     "extensions": null,
     "lazyAssembly": null,
     "libraryInitializers": null,
     "pdb": {
-      "BlogBlazorUI.pdb": "sha256-Mu3GyBP\/cEnk1GAncuOXWT2wlfLb6X8RBcmVmSPh2Ww="
+      "BlogBlazorUI.pdb": "sha256-exq+9HC4OI\/0pmuXkjH\/jiHBFoVxv7UX7oqkn2fojIg="
     },
     "runtime": {
       "dotnet.6.0.11.egvp60nq9h.js": "sha256-F30V+6jU3jwJYFZoLuwMAqzTiOXu6q7zGgOdjYBofDI=",

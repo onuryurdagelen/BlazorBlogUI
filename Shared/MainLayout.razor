@@ -8,7 +8,8 @@
                 @Body
                 <div class="col-md-4">
                     <MenuCategory></MenuCategory>
-
+                    <MostViewedArticles></MostViewedArticles>
+                    <ArchivedArticles></ArchivedArticles>
                 </div>
             </ChildContent>
             <ErrorContent>
@@ -26,6 +27,6 @@
 </div>
 
 @code {
-    private ErrorBoundary ErrorBoundary;
+    private ErrorBoundary ErrorBoundary { get; set; }
 }
 

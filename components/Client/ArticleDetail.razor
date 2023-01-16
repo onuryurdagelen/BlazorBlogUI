@@ -28,6 +28,12 @@
         </div>
     </div>
 }
+else
+{
+    <div class="col-md-8 d-flex justify-content-center">
+        <BSSpinner></BSSpinner>
+    </div>
+}
 
 
 @code {
@@ -41,11 +47,27 @@
 
     public ArticleVM ArticleVM { get; set; }
 
-    protected override async Task OnInitializedAsync()
-    {
-        ArticleVM result = await HttpClient.GetFromJsonAsync<ArticleVM>($"articles/{articleId}");
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    ArticleVM result = await HttpClient.GetFromJsonAsync<ArticleVM>($"Articles/{articleId}");
 
-        if(result == null)
+    //    if(result == null)
+    //    {
+    //        ErrorMessage = "Hata!";
+    //    }
+    //    else
+    //    {
+    //        ArticleVM = result;
+    //    }
+
+    //    StateHasChanged();
+    //}
+    protected override async Task OnParametersSetAsync()
+    {
+        ArticleVM = null;
+        ArticleVM result = await HttpClient.GetFromJsonAsync<ArticleVM>($"Articles/{articleId}");
+
+        if (result == null)
         {
             ErrorMessage = "Hata!";
         }

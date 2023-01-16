@@ -10,7 +10,7 @@
             </Toggler>
             <Content>
                 <BSNav MarginEnd="Margins.Auto"  MarginBottom="Margins.Small" Class="mb-lg-0">
-                    <BSNavItem IsActive="true" OnClick="@Navigate">
+                    <BSNavItem Url="/">
                         Home
                     </BSNavItem>
                     <BSNavItem Url="about">About</BSNavItem>
@@ -31,12 +31,5 @@
     [Inject]
     public NavigationManager NavigationManager { get; set; }
 
-    private async Task Navigate()
-    {
-        NavigationManager.NavigateTo("/");
-        //this.pageIndex = 1;
-        ////this.shouldRender = true;
-        //await this.getArticlesAsPaginately(this.pageIndex);
-
-    }
+   
 }

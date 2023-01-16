@@ -1,0 +1,52 @@
+﻿@using BlogBlazorUI.Models;
+@layout MainLayout
+
+<div class="row mt-2">
+    <BSCard CardType="CardType.Card" Class="border-primary mb-3">
+        <BSCard CardType="CardType.Header" alt="Card image cap">Most Viewed Articles</BSCard>
+        <BSCard CardType="CardType.Body" Class="text-primary">
+            @if (MVArticles == null || MVArticles.Count == 0)
+            {
+                <div class="row justify-content-center align-items-center">
+                    <BSSpinner></BSSpinner>
+                </div>
+
+            }
+            else
+            {
+                if (MVArticles.Count > 0)
+                {
+                    foreach (var mva in MVArticles)
+                    {
+                        <h3>
+                            <strong>
+                                <a class="btn btn-link" href="/article/@mva.Id">
+                                    <i class="fas fa-arrow-right"></i> @mva.Name
+                                </a>
+                            </strong>
+                        </h3>
+                    }
+                }
+
+            }
+
+
+        </BSCard>
+    </BSCard>
+
+</div>
+
+@code {
+    [Inject]
+    HttpClient HttpClient { get; set; }
+
+    private List<ArticleVM> MVArticles { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        MVArticles = await HttpClient.GetFromJsonAsync<List<ArticleVM>>($"Articles/MostViewedArticles");
+
+        StateHasChanged();
+    }
+}

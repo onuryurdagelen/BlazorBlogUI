@@ -14,7 +14,6 @@
 }
 @if (ArticlesAsCategory?.Count > 0)
 {
-    <h3>@CategoryName</h3>
     <div class="col-md-8">
         @foreach (var aac in ArticlesAsCategory)
         {
@@ -67,7 +66,7 @@
     protected async Task OnPageLinkClick(int pageIndex)
     {
         this.pageIndex = pageIndex;
-        this.index = pageIndex;
+        //this.index = pageIndex;
         System.Console.WriteLine($"PageIndex: {pageIndex}");
         NavigationManager.NavigateTo($"/articles/{this.categoryId}/page/{pageIndex}");
     }
@@ -87,21 +86,20 @@
             CategoryName = ArticlesAsCategory.Select(x => x.Category.Name).FirstOrDefault();
 
         }
-        StateHasChanged();
-
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        System.Console.WriteLine("OnInitializedAsync çalıştı...");
-        await getArticlesAsPaginately(this.pageIndex);
-        paginationCount = TotalCount / pageCount;
+        paginationCount = Decimal.ToInt32(Math.Floor(Convert.ToDecimal(TotalCount / pageCount)));
         if (TotalCount % pageCount != 0)
         {
             this.paginationCount += 1;
         }
         StateHasChanged();
+
     }
+
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    System.Console.WriteLine("OnInitializedAsync çalıştı...");
+    //    await getArticlesAsPaginately(this.pageIndex);
+    //}
 
     protected override async Task OnParametersSetAsync()
     {
@@ -113,12 +111,7 @@
 
         }
         await getArticlesAsPaginately(this.pageIndex);
-        paginationCount = TotalCount / pageCount;
-        if (TotalCount % pageCount != 0)
-        {
-            this.paginationCount += 1;
-        }
-        StateHasChanged();
+      
     }
 
 }

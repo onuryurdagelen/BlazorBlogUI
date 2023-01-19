@@ -5,12 +5,18 @@
     <BSCard CardType="CardType.Card" Class="border-primary mb-3">
         <BSCard CardType="CardType.Header" alt="Card image cap">Archived Articles</BSCard>
         <BSCard CardType="CardType.Body" Class="text-primary">
-            @if (ArchivedArticlesVM == null || ArchivedArticlesVM.Count == 0)
+            @if (ArchivedArticlesVM == null)
             {
                 <div class="row justify-content-center align-items-center">
                     <BSSpinner></BSSpinner>
                 </div>
 
+            }
+            @if (ArchivedArticlesVM != null && ArchivedArticlesVM.Count == 0)
+            {
+                <div class="row justify-content-center align-items-center">
+                   Archived Articles is empty!
+                </div>
             }
             else
             {

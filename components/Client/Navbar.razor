@@ -1,7 +1,21 @@
 ﻿@using BlogBlazorUI.Pages.Client;
 @layout MainLayout
-@inherits IndexBase
-<BSNavbar Color="BSColor.Light">
+
+
+<MudAppBar Bottom="true" Fixed="false" Color="MudBlazor.Color.Primary" Elevation="1">
+    <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="MudBlazor.Color.Inherit" Edge="Edge.Start" />
+    <MudSpacer />
+    <MudButton Variant="Variant.Text" Color="MudBlazor.Color.Inherit">About</MudButton>
+    <MudButton Variant="Variant.Text" Color="MudBlazor.Color.Inherit" >Contact</MudButton>
+    <MudButton Href="register" Variant="Variant.Text" Color="MudBlazor.Color.Inherit">Register</MudButton>
+    <MudButton Href="login" Variant="Variant.Text" Color="MudBlazor.Color.Inherit">Login</MudButton>
+    <MudIconButton Icon="@Icons.Material.Filled.FavoriteBorder" Color="MudBlazor.Color.Inherit" Edge="Edge.End" />
+    <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="MudBlazor.Color.Inherit" Edge="Edge.End" />
+</MudAppBar>
+
+
+
+@*<BSNavbar Color="BSColor.Light">
     <BSContainer Container="Container.Fluid">
         <BSNavbarBrand>Navbar</BSNavbarBrand>
         <BSCollapse IsInNavbar="true">
@@ -24,12 +38,10 @@
             <BSButton Color="BSColor.Success" IsOutlined="true">Search</BSButton>
         </form>
     </BSContainer>
-</BSNavbar>
+</BSNavbar>*@
 
 @code{
 
-    [Inject]
-    public NavigationManager NavigationManager { get; set; }
 
    
 }

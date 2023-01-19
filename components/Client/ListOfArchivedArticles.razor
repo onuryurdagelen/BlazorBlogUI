@@ -1,6 +1,8 @@
 ﻿@page "/articles/{year:int}/{month:int}"
 @page "/articles/{year:int}/{month:int}/page/{index:int}"
+@using BlogBlazorUI.Dtos;
 @using BlogBlazorUI.Models;
+@using BlogBlazorUI.Results;
 @using BlogBlazorUI.Utils;
 
 @if (ArchivedArticles == null || ArchivedArticles.Count == 0)
@@ -72,7 +74,7 @@
 
     protected async Task getArticlesAsPaginately(int pageIndex)
     {
-        RestResponse<List<ArticleVM>> result = await HttpClient.GetFromJsonAsync<RestResponse<List<ArticleVM>>>($"Articles/ListOfArchivedArticles/{year}/{month}/{pageIndex}/{pageCount}");
+        RestDataResponse<ArticleDto> result = await HttpClient.GetFromJsonAsync<RestDataResponse<ArticleDto>>($"Articles/ListOfArchivedArticles/{year}/{month}/{pageIndex}/{pageCount}");
 
         if (result == null)
         {
@@ -80,8 +82,8 @@
         }
         else
         {
-            ArchivedArticles = result.Data;
-            TotalCount = result.TotalCount;
+            ArchivedArticles = result.Data.Articles;
+            TotalCount = result.Data.TotalCount;
 
         }
         paginationCount = Decimal.ToInt32(Math.Floor(Convert.ToDecimal(TotalCount / pageCount)));

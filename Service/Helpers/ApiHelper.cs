@@ -10,7 +10,7 @@ namespace BlogBlazorUI.Service.Helpers
         public static void InitializeClient()
         {
             ApiClient = new HttpClient();
-            ApiClient.BaseAddress = new Uri("https://localhost:7019/");
+            ApiClient.BaseAddress = new Uri("https://localhost:7176/api/");
             ApiClient.DefaultRequestHeaders.Accept.Clear();
             ApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
         }

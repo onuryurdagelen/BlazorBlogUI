@@ -1,0 +1,83 @@
+﻿@layout MainLayout
+@page "/login"
+
+@inject ILocalStorageService LocalStorage;
+@inject NavigationManager NavigationManager;
+@inject ISnackbar Snackbar
+
+<h3>Login</h3>
+<div class="col-md-8 border-primary p-2">
+   
+    <div class="card border-primary">
+        <div class="card-body">
+            <form>
+                <div class="row mb-1">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input @bind-value="@UserLoginDto.EmailAddress" type="email" class="form-control" id="emailAddress" aria-describedby="emailHelp" placeholder="Enter email">
+                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div>
+                </div>
+                <div class="row mb-1">
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        <input @bind-value="@UserLoginDto.Password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    </div>
+                </div>
+               <div class="row justify-content-end">
+                    <button type="button" class="btn btn-primary" @onclick="@ConfirmRegister">Submit</button>
+               </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@code {
+    private UserLoginDto UserLoginDto { get; set; } = new UserLoginDto();
+
+
+
+    RestClient RestClient = new RestClient();
+    private async Task ConfirmRegister()
+    {
+        RestDataResponse<TokenDto> response = await RestClient.Post<TokenDto>(UserLoginDto, "Auth/Login");
+
+
+        if (response.IsSuccess)
+        {
+            //gelen token'ı local storage'a kaydet.
+            await LocalStorage.SetItemAsync<TokenDto>("authToken", response.Data);
+            NavigationManager.NavigateTo("/");
+            Snackbar.Add(response.Message, Severity.Success);
+            JwtSecurityTokenHandler jwtTokenHandler = new JwtSecurityTokenHandler();
+            JwtSecurityToken jwtSecurityToken = jwtTokenHandler.ReadJwtToken(response.Data.AccessToken);
+            var claims = jwtSecurityToken.Claims.ToList();
+
+            var appClaims = new List<AppClaimDto>();
+
+            foreach (var item in claims)
+            {
+                AppClaimDto appClaim = new AppClaimDto();
+                appClaim.ClaimType = item.Type;
+                appClaim.ClaimValue = item.Value;
+                appClaims.Add(appClaim);
+
+            }
+            foreach (var item in appClaims)
+            {
+                System.Console.WriteLine($"Type: {item.ClaimType} Value: {item.ClaimValue}");
+            }
+        }
+        else
+        {
+            //hata mesajı gönder.
+            Snackbar.Add(response.Message, Severity.Warning);
+        }
+
+       
+        
+
+        //System.Console.WriteLine(response.ToString());
+        
+    }
+}

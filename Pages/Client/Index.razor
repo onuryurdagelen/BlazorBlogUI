@@ -1,12 +1,13 @@
 ﻿@layout MainLayout
 @page "/"
 @page "/page/{index:int}"
-@*@page "/page/{pageIndex}"*@
-@using BlogBlazorUI.components.Client
+@using BlogBlazorUI.Dtos;
+@using BlogBlazorUI.Models;
+@using BlogBlazorUI.Results;
+@using BlogBlazorUI.Service.Helpers;
+@using BlogBlazorUI.components.Client;
 
-@inherits IndexBase
-
-@if (Articles == null || Articles.Count == 0)
+@if (Articles == null)
 {
 
     <div class="col-md-8 d-flex justify-content-center">
@@ -14,6 +15,12 @@
     </div>
 
    
+}
+@if(Articles != null && Articles.Count == 0)
+{
+    <div class="col-md-8 d-flex justify-content-center">
+        Articles List is empty!
+    </div>
 }
 @if (Articles?.Count > 0)
 {
@@ -25,16 +32,91 @@
             <!--Articles section ends here-->
         }
         <div class="row mt-2">
-            <Pagination PageCount="paginationCount"
-                        PageIndex="@pageIndex"
-                        OnPageLinkClick="@OnPageClick"
-                        NextEllipsisPageIcon="fas fa-ellipsis-h"
-                        PrevEllipsisPageIcon="fas fa-ellipsis-h"
-                        MaxPageLinkCount="10"
-                        NextPageIcon="fas fa-sharp fa-solid fa-arrow-right"
+            <Pagination PageCount="  paginationCount"
+    PageIndex="@pageIndex"
+    OnPageLinkClick="@OnPageClick"
+    NextEllipsisPageIcon="fas fa-ellipsis-h"
+    PrevEllipsisPageIcon="fas fa-ellipsis-h"
+    MaxPageLinkCount="   10"
+    NextPageIcon="fas fa-sharp fa-solid fa-arrow-right"
                         PrevPageIcon="fas fa-sharp fa-solid fa-arrow-left">
             </Pagination>
         </div>
     </div>
+    }
+@code {
+    [Inject]
+    HttpClient HttpClient { get; set; }
 
+    RestClient RestClient { get; set; } = new RestClient();
+
+    public List<ArticleVM> Articles { get; set; }
+
+    public ArticleVM ArticleVM { get; set; }
+
+    public int articleId { get; set; }
+
+    public int pageIndex { get; set; } = 1;
+
+    [Parameter]
+    public int index { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    public int pageCount { get; set; } = 5;
+
+    public int paginationCount { get; set; }
+
+    public string ErrorMessage { get; set; }
+
+    public int TotalCount { get; set; }
+
+    public int counter { get; set; } = 1;
+    //public bool shouldRender { get; set; } = false;
+
+    protected async Task OnPageClick(int pageIndex)
+    {
+        this.Articles = null;
+        this.pageIndex = pageIndex;
+        //this.index = pageIndex;
+        System.Console.WriteLine($"PageIndex: {pageIndex}");
+        NavigationManager.NavigateTo($"/page/{pageIndex}");
+    }
+    protected async Task getArticlesAsPaginately(int pageIndex)
+    {
+        
+        Results.RestDataResponse<ArticleDto> result = await RestClient.Get<ArticleDto>($"Articles/{pageIndex}/{this.pageCount}");
+
+        if (result.Error != null)
+        {
+            ErrorMessage = "Hata!";
+        }
+        else
+        {
+            this.Articles = result.Data.Articles;
+            TotalCount = result.Data.TotalCount;
+
+        }
+
+    }
+    protected override async Task OnParametersSetAsync()
+    {
+        System.Console.WriteLine("Parametre değişti");
+        this.Articles = null;
+        //this.Articles = null;
+        if (this.index == 0)
+        {
+            this.pageIndex = 1;
+
+        }
+        await getArticlesAsPaginately(this.pageIndex);
+        paginationCount = Decimal.ToInt32(Math.Floor(Convert.ToDecimal(TotalCount / pageCount)));
+        if (TotalCount % pageCount != 0 && pageCount > 0)
+        {
+            this.paginationCount += 1;
+        }
+
+        StateHasChanged();
+    }
 }

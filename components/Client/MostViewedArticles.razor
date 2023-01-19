@@ -5,10 +5,17 @@
     <BSCard CardType="CardType.Card" Class="border-primary mb-3">
         <BSCard CardType="CardType.Header" alt="Card image cap">Most Viewed Articles</BSCard>
         <BSCard CardType="CardType.Body" Class="text-primary">
-            @if (MVArticles == null || MVArticles.Count == 0)
+            @if (MVArticles == null)
             {
                 <div class="row justify-content-center align-items-center">
                     <BSSpinner></BSSpinner>
+                </div>
+
+            }
+            @if (MVArticles != null || MVArticles.Count == 0)
+            {
+                <div class="row justify-content-center align-items-center">
+                    <h3>Most Viewed Articles is empty!</h3>
                 </div>
 
             }

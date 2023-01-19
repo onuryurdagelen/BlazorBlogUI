@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using Blazored.Toast;
 using BlazorSpinner;
 using BlazorStrap;
@@ -15,6 +16,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7176/api/") });
 builder.Services.AddBlazorStrap();
 builder.Services.AddBlazoredToast();
+builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddBootstrapBlazor();
 builder.Services.AddMudServices();
 builder.Services.AddScoped<SpinnerService>();

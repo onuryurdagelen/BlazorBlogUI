@@ -5,12 +5,18 @@
     <BSCard CardType="CardType.Card" Class="border-primary mb-3">
         <BSCard CardType="CardType.Header" alt="Card image cap">Categories</BSCard>
         <BSCard CardType="CardType.Body" Class="text-primary">
-            @if (MenuCategories == null || MenuCategories.Count == 0)
+            @if (MenuCategories == null)
             {
                 <div class="row justify-content-center align-items-center">
                     <BSSpinner></BSSpinner>
                 </div>
 
+            }
+            else if(MenuCategories != null && MenuCategories.Count == 0)
+            {
+                <div class="row justify-content-center align-items-center">
+                    <h3>Menu Categories is empty</h3>
+                </div>
             }
             else
             {

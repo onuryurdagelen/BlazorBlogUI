@@ -2,11 +2,10 @@
 
 namespace BlogBlazorUI.Results
 {
-    public class IRestResponse<TResponse>
+    public interface IRestResponse
     {
-        public TResponse Data { get; }
-        public string Error { get; }
-        public bool IsSuccess { get; }
-        public HttpStatusCode StatusCode { get; }
+        string Error { get; set; }
+        bool IsSuccess { get; set; }
+        HttpStatusCode StatusCode { get; set; }
     }
 }

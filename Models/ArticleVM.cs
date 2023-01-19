@@ -4,6 +4,11 @@ namespace BlogBlazorUI.Models
 {
     public class ArticleVM
     {
+        public ArticleVM()
+        {
+            Comments = new HashSet<CommentVM>();
+        }
+
         public int Id { get; set; }
         public string Name { get; set; } = null!;
         public string ContentSummary { get; set; } = null!;

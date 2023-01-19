@@ -1,9 +1,11 @@
 ﻿@page "/articles/{categoryId:int}"
 @page "/articles/{categoryId:int}/page/{index:int}"
+@using BlogBlazorUI.Dtos;
 @using BlogBlazorUI.Models;
+@using BlogBlazorUI.Results;
 @using BlogBlazorUI.Utils;
 
-@if (ArticlesAsCategory == null || ArticlesAsCategory.Count == 0)
+@if (ArticlesAsCategory == null)
 {
 
     <div class="col-md-8 d-flex justify-content-center">
@@ -11,6 +13,12 @@
     </div>
 
 
+}
+@if(ArticlesAsCategory != null && ArticlesAsCategory.Count == 0)
+{
+    <div class="col-md-8 d-flex justify-content-center">
+        <h3>Articles as Category is empty!</h3>
+    </div>
 }
 @if (ArticlesAsCategory?.Count > 0)
 {
@@ -73,7 +81,7 @@
 
     protected async Task getArticlesAsPaginately(int pageIndex)
     {
-        RestResponse<List<ArticleVM>> result = await HttpClient.GetFromJsonAsync<RestResponse<List<ArticleVM>>>($"Articles/ArticlesAsCategory/{categoryId}/{pageIndex}/{pageCount}");
+        RestDataResponse<ArticleDto> result = await HttpClient.GetFromJsonAsync<RestDataResponse<ArticleDto>>($"Articles/ArticlesAsCategory/{categoryId}/{pageIndex}/{pageCount}");
 
         if (result == null)
         {
@@ -81,8 +89,8 @@
         }
         else
         {
-            ArticlesAsCategory = result.Data;
-            TotalCount = result.TotalCount;
+            ArticlesAsCategory = result.Data.Articles;
+            TotalCount = result.Data.TotalCount;
             CategoryName = ArticlesAsCategory.Select(x => x.Category.Name).FirstOrDefault();
 
         }

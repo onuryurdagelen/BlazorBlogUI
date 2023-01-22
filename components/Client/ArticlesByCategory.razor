@@ -54,6 +54,8 @@
     [Inject]
     public HttpClient HttpClient { get; set; }
 
+    RestClient RestClient = new RestClient();
+
     [Inject]
     public NavigationManager NavigationManager { get; set; }
 
@@ -81,7 +83,7 @@
 
     protected async Task getArticlesAsPaginately(int pageIndex)
     {
-        RestDataResponse<ArticleDto> result = await HttpClient.GetFromJsonAsync<RestDataResponse<ArticleDto>>($"Articles/ArticlesAsCategory/{categoryId}/{pageIndex}/{pageCount}");
+        RestDataResponse<ArticleDto> result = await RestClient.Get<ArticleDto>($"Articles/ArticlesAsCategory/{categoryId}/{pageIndex}/{pageCount}");
 
         if (result == null)
         {

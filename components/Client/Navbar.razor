@@ -1,47 +1,62 @@
 ﻿@using BlogBlazorUI.Pages.Client;
+@using BlogBlazorUI.Utils;
 @layout MainLayout
-
+@inject AuthenticationStateProvider authStateProvider
+@inject NavigationManager NavigationManager;
+@inject ILocalStorageService LocalStorage;
 
 <MudAppBar Bottom="true" Fixed="false" Color="MudBlazor.Color.Primary" Elevation="1">
     <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="MudBlazor.Color.Inherit" Edge="Edge.Start" />
+    <MudButton Variant="MudBlazor.Variant.Text" Href="/" Color="MudBlazor.Color.Inherit">Home</MudButton>
+    <MudButton Variant="MudBlazor.Variant.Text" Href="about" Color="MudBlazor.Color.Inherit">About</MudButton>
+    <MudButton Variant="MudBlazor.Variant.Text" Href="contact" Color="MudBlazor.Color.Inherit">Contact</MudButton>
     <MudSpacer />
-    <MudButton Variant="Variant.Text" Color="MudBlazor.Color.Inherit">About</MudButton>
-    <MudButton Variant="Variant.Text" Color="MudBlazor.Color.Inherit" >Contact</MudButton>
-    <MudButton Href="register" Variant="Variant.Text" Color="MudBlazor.Color.Inherit">Register</MudButton>
-    <MudButton Href="login" Variant="Variant.Text" Color="MudBlazor.Color.Inherit">Login</MudButton>
-    <MudIconButton Icon="@Icons.Material.Filled.FavoriteBorder" Color="MudBlazor.Color.Inherit" Edge="Edge.End" />
-    <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="MudBlazor.Color.Inherit" Edge="Edge.End" />
+
+    <AuthorizeView>
+        <Authorized>
+            <DashboardItem/>
+        </Authorized>
+        <NotAuthorized>
+            <MudButton Href="register" Variant="MudBlazor.Variant.Text" Color="MudBlazor.Color.Inherit">Register</MudButton>
+            <MudButton  Variant="MudBlazor.Variant.Text" Color="MudBlazor.Color.Inherit">
+                <a style="color:white;" href="login?returnUrl=@NavigationManager.ToBaseRelativePath(NavigationManager.Uri)">Login</a>
+            </MudButton>
+        </NotAuthorized>
+    </AuthorizeView>    
+
+    <AuthorizeView>
+        <Authorized>
+            <MudBadge Origin="Origin.BottomCenter" Overlap="true" Elevation="4"  Icon="@Icons.Material.Filled.MoreVert" Color="MudBlazor.Color.Primary">
+                <MudMenu Label="@(context.User.Claims.Where(x => x.Type == "Name").Select(x => x.Value).FirstOrDefault())" Variant="MudBlazor.Variant.Filled" TransformOrigin="Origin.TopCenter" AnchorOrigin="Origin.CenterCenter" Color="MudBlazor.Color.Primary" Size="MudBlazor.Size.Large">
+                    <MudMenuItem >Profile</MudMenuItem>
+                    <MudMenuItem>Settings</MudMenuItem>
+                    <MudMenuItem OnClick="@Logout">Logout</MudMenuItem>
+                </MudMenu>
+            </MudBadge>
+        </Authorized>
+    </AuthorizeView>
 </MudAppBar>
 
 
-
-@*<BSNavbar Color="BSColor.Light">
-    <BSContainer Container="Container.Fluid">
-        <BSNavbarBrand>Navbar</BSNavbarBrand>
-        <BSCollapse IsInNavbar="true">
-            <Toggler>
-                <BSNavbarToggle />
-            </Toggler>
-            <Content>
-                <BSNav MarginEnd="Margins.Auto"  MarginBottom="Margins.Small" Class="mb-lg-0">
-                    <BSNavItem Url="/">
-                        Home
-                    </BSNavItem>
-                    <BSNavItem Url="about">About</BSNavItem>
-                    <BSNavItem Url="contact">Contact</BSNavItem>
-                  
-                </BSNav>
-            </Content>
-        </BSCollapse>
-        <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <BSButton Color="BSColor.Success" IsOutlined="true">Search</BSButton>
-        </form>
-    </BSContainer>
-</BSNavbar>*@
-
 @code{
+    private AuthenticationState authState { get; set; }
+    private ClaimsPrincipal user { get; set; }
 
+    protected override async Task OnInitializedAsync()
+    {
+        var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
+        authState = await customAuthStateProvider.GetAuthenticationStateAsync();
+        user = authState.User;
+    }
 
-   
+    private async Task Logout()
+    {
+        await LocalStorage.RemoveItemAsync("authToken");
+
+        CustomAuthenticationStateProvider customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
+        await customAuthStateProvider.GetAuthenticationStateAsync();
+        NavigationManager.NavigateTo("/login");
+
+    }
+
 }

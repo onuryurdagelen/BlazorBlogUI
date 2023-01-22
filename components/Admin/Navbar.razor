@@ -1,38 +1,44 @@
-﻿
+﻿@using BlogBlazorUI.Pages.Client;
+@using BlogBlazorUI.Utils;
 @layout AdminLayout
-<BSNavbar Color="BSColor.Light">
-    <BSContainer Container="Container.Fluid">
-        <BSNavbarBrand>Navbar</BSNavbarBrand>
-        <BSCollapse IsInNavbar="true">
-            <Toggler>
-                <BSNavbarToggle />
-            </Toggler>
-            <Content>
-                <BSNav MarginEnd="Margins.Auto" MarginBottom="Margins.Small" Class="mb-lg-0">
-                    <BSNavItem IsActive="true">Home</BSNavItem>
-                    <BSNavItem Url="javascript:void(0);">Link</BSNavItem>
-                    <BSNavItem IsDropdown="true">
-                        <BSDropdown>
-                            <Toggler><BSToggle IsNavLink="true">Dropdown</BSToggle></Toggler>
-                            <Content>
-                                <BSDropdownItem Url="javascript:void(0);">Action</BSDropdownItem>
-                                <BSDropdownItem Url="javascript:void(0);">Another action</BSDropdownItem>
-                                <BSDropdownItem IsDivider="true" />
-                                <BSDropdownItem Url="javascript:void(0);">Something else here</BSDropdownItem>
-                            </Content>
-                        </BSDropdown>
-                    </BSNavItem>
-                    <BSNavItem Url="javascript:void(0);" IsDisabled="true">Disabled</BSNavItem>
-                </BSNav>
-            </Content>
-        </BSCollapse>
-        <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <BSButton Color="BSColor.Success" IsOutlined="true">Search</BSButton>
-        </form>
-    </BSContainer>
-</BSNavbar>
+@inject AuthenticationStateProvider authStateProvider
+@inject NavigationManager NavigationManager;
+@inject ILocalStorageService LocalStorage;
 
-@code {
-    
+<MudAppBar Bottom="true" Fixed="false" Color="MudBlazor.Color.Primary" Elevation="1">
+    <ClientItem />
+    <MudButton Href="dashboard/articles" Variant="MudBlazor.Variant.Text" Color="MudBlazor.Color.Inherit">Articles</MudButton>
+    <MudSpacer />
+    <MudBadge Origin="Origin.BottomCenter" Overlap="true" Elevation="4" Icon="@Icons.Material.Filled.MoreVert" Color="MudBlazor.Color.Primary">
+        <MudMenu Label="@(user != null ? @user.Claims.Where(x => x.Type == "Name").Select(x => x.Value).FirstOrDefault() : "")" Variant="MudBlazor.Variant.Filled" TransformOrigin="Origin.TopCenter" AnchorOrigin="Origin.CenterCenter" Color="MudBlazor.Color.Primary" Size="MudBlazor.Size.Large">
+            <MudMenuItem>Profile</MudMenuItem>
+            <MudMenuItem>Settings</MudMenuItem>
+            <MudMenuItem OnClick="@Logout">Logout</MudMenuItem>
+        </MudMenu>
+    </MudBadge>
+
+</MudAppBar>
+
+
+@code{
+    private AuthenticationState authState { get; set; }
+    private ClaimsPrincipal user { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
+        authState = await customAuthStateProvider.GetAuthenticationStateAsync();
+        user = authState.User;
+    }
+
+    private async Task Logout()
+    {
+        await LocalStorage.RemoveItemAsync("authToken");
+
+        CustomAuthenticationStateProvider customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
+        await customAuthStateProvider.GetAuthenticationStateAsync();
+        NavigationManager.NavigateTo("/login");
+
+    }
+
 }

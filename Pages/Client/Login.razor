@@ -1,72 +1,96 @@
-﻿@layout MainLayout
+﻿@layout AdditionalLayout
 @page "/login"
+@using BlogBlazorUI.Utils;
 
 @inject ILocalStorageService LocalStorage;
 @inject NavigationManager NavigationManager;
 @inject ISnackbar Snackbar
+@inject AuthenticationStateProvider authStateProvider
 
-<h3>Login</h3>
-<div class="col-md-8 border-primary p-2">
-   
-    <div class="card border-primary">
-        <div class="card-body">
-            <form>
-                <div class="row mb-1">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Email address</label>
-                        <input @bind-value="@UserLoginDto.EmailAddress" type="email" class="form-control" id="emailAddress" aria-describedby="emailHelp" placeholder="Enter email">
-                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                    </div>
+<div class="container mt-2">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-md-6 border-primary p-2">
+            <div class="card-header">
+                <h3>Login</h3>
+            </div>
+            <div class="card border-primary">
+                <div class="card-body">
+                    <form>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Email address</label>
+                                <input @bind-value="@UserLoginDto.EmailAddress" type="email" class="form-control" id="emailAddress" aria-describedby="emailHelp" placeholder="Enter email">
+                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Password</label>
+                                <input @bind-value="@UserLoginDto.Password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 d-flex justify-content-end">
+                                <button type="button" class="btn btn-primary" @onclick="@ConfirmLogin">Submit</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="row mb-1">
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Password</label>
-                        <input @bind-value="@UserLoginDto.Password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                    </div>
-                </div>
-               <div class="row justify-content-end">
-                    <button type="button" class="btn btn-primary" @onclick="@ConfirmRegister">Submit</button>
-               </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
 
+
 @code {
     private UserLoginDto UserLoginDto { get; set; } = new UserLoginDto();
-
-
-
     RestClient RestClient = new RestClient();
-    private async Task ConfirmRegister()
+
+    public string returnUrl { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+
+        string authToken = await LocalStorage.GetItemAsStringAsync("authToken");
+
+        if(authToken != null)
+        {
+            NavigationManager.NavigateTo("");
+            Snackbar.Add("You already logged in.Redirected to Home Page", Severity.Info);
+        }
+
+        var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+        if (QueryHelper.ParseQuery(uri.Query).TryGetValue("returnUrl", out var url))
+        {
+            returnUrl = url;
+        }
+    }
+
+
+    public async Task ConfirmLogin()
     {
         RestDataResponse<TokenDto> response = await RestClient.Post<TokenDto>(UserLoginDto, "Auth/Login");
 
 
         if (response.IsSuccess)
         {
-            //gelen token'ı local storage'a kaydet.
-            await LocalStorage.SetItemAsync<TokenDto>("authToken", response.Data);
-            NavigationManager.NavigateTo("/");
+            await LocalStorage.SetItemAsStringAsync("authToken", response.Data.AccessToken);
+            var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
+            await customAuthStateProvider.GetAuthenticationStateAsync();
+            if(returnUrl == null)
+                NavigationManager.NavigateTo("");
+            else
+            {
+                if(returnUrl != "register")
+                {
+                    NavigationManager.NavigateTo(returnUrl);
+                }
+                else
+                {
+                    NavigationManager.NavigateTo("");
+                }
+            }
+
             Snackbar.Add(response.Message, Severity.Success);
-            JwtSecurityTokenHandler jwtTokenHandler = new JwtSecurityTokenHandler();
-            JwtSecurityToken jwtSecurityToken = jwtTokenHandler.ReadJwtToken(response.Data.AccessToken);
-            var claims = jwtSecurityToken.Claims.ToList();
-
-            var appClaims = new List<AppClaimDto>();
-
-            foreach (var item in claims)
-            {
-                AppClaimDto appClaim = new AppClaimDto();
-                appClaim.ClaimType = item.Type;
-                appClaim.ClaimValue = item.Value;
-                appClaims.Add(appClaim);
-
-            }
-            foreach (var item in appClaims)
-            {
-                System.Console.WriteLine($"Type: {item.ClaimType} Value: {item.ClaimValue}");
-            }
         }
         else
         {

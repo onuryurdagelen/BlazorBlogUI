@@ -1,0 +1,33 @@
+﻿@inherits LayoutComponentBase
+@inject AuthenticationStateProvider AuthStateProvider
+@using BlogBlazorUI.components.Client
+@using System.Security.Claims
+@using BlogBlazorUI.components
+
+@if (authorized)
+{
+    <BlogBlazorUI.components.Admin.Navbar />
+    <AuthorizeView>
+        @Body
+    </AuthorizeView>
+}
+else
+{
+    <Navbar />
+    @Body
+}
+
+@code {
+    private bool authorized = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        string role = (await AuthStateProvider.GetAuthenticationStateAsync())
+        .User.Claims.FirstOrDefault(x => x.Type == "Roles").Value;
+
+        if (role.Contains("Admin") || role.Contains("Editor"))
+        {
+            authorized = true;
+        }
+    }
+}

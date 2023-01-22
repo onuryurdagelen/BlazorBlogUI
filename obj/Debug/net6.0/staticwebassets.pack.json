@@ -25,6 +25,10 @@
       "PackagePath": "staticwebassets\\assets\\images.png"
     },
     {
+      "Id": "C:\\Users\\Administrator\\Desktop\\AngularBlog\\BlogBlazorUI\\BlogBlazorUI\\wwwroot\\assets\\placeholder-image.jpg",
+      "PackagePath": "staticwebassets\\assets\\placeholder-image.jpg"
+    },
+    {
       "Id": "C:\\Users\\Administrator\\Desktop\\AngularBlog\\BlogBlazorUI\\BlogBlazorUI\\wwwroot\\css\\app.css",
       "PackagePath": "staticwebassets\\css\\app.css"
     },

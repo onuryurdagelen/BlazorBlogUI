@@ -56,7 +56,6 @@ namespace BlogBlazorUI.Service.Helpers
                     };
 
                     restResponse = JsonConvert.DeserializeObject<Results.RestDataResponse<TResponse>>(data);
-                    restResponse.StatusCode = HttpStatusCode.OK;
                 }
                 else
                 {
@@ -80,13 +79,15 @@ namespace BlogBlazorUI.Service.Helpers
 
         public async Task<RestDataResponse<TResponse>> Post<TResponse>(object root, string uri)
         {
-            var options = new JsonSerializerOptions
+            System.Text.Json.JsonSerializerOptions? options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
+                
+                
             };
-
+            
             //Convert the post to json
-            string json = JsonConvert.SerializeObject(root, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            string json = System.Text.Json.JsonSerializer.Serialize(root, options);
 
             Results.RestDataResponse<TResponse> restResponse = new Results.RestDataResponse<TResponse>();
 
@@ -105,16 +106,15 @@ namespace BlogBlazorUI.Service.Helpers
 
                         //Get string data
                         string data = await response.Content.ReadAsStringAsync();
-                        await Console.Out.WriteLineAsync(data);
                         //Deserialize the data
-                        restResponse = JsonConvert.DeserializeObject<Results.RestDataResponse<TResponse>>(data);
+                        restResponse = System.Text.Json.JsonSerializer.Deserialize<Results.RestDataResponse<TResponse>>(data);
                         
                     }
                     else
                     {
                         //Get string data
                         string data = await response.Content.ReadAsStringAsync();
-                        restResponse = JsonConvert.DeserializeObject<Results.RestDataResponse<TResponse>>(data);
+                        restResponse = System.Text.Json.JsonSerializer.Deserialize<Results.RestDataResponse<TResponse>>(data);
                     }
 
                 }

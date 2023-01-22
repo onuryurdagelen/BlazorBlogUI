@@ -1,39 +1,103 @@
-﻿@layout MainLayout
+﻿@layout AdditionalLayout
 @page "/register"
+@using BlogBlazorUI.Utils;
+@inject NavigationManager NavigationManager;
+@inject AuthenticationStateProvider AuthStateProvider
+@inject ISnackbar Snackbar
+@inject IJSRuntime JsRuntime
+@inject ILocalStorageService LocalStorage;
 
-
-<h3>Register</h3>
-<div class="col-md-8 border-primary p-2">
-   
-    <div class="card border-primary">
-        <div class="card-body">
-            <form>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input @bind-value="@UserRegisterDto.EmailAddress" type="email" class="form-control" id="emailAddress" aria-describedby="emailHelp" placeholder="Enter email">
-                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+<div class="container mt-2">
+<div class="row justify-content-center align-items-center">
+        <div class="col-md-6 border-primary p-2">
+            <div class="card-header">
+                <h3>Register</h3>
+            </div>
+            <div class="card border-primary">
+                <div class="card-body">
+                    <form>
+                      <div class="row mb-1">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Email address</label>
+                                <input @bind-value="@UserRegisterDto.EmailAddress" type="email" class="form-control" id="emailAddress" aria-describedby="emailHelp" placeholder="Enter email">
+                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                            </div>
+                      </div>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Full Name</label>
+                                <input @bind-value="@UserRegisterDto.FullName" type="text" class="form-control" id="emailAddress" aria-describedby="emailHelp" placeholder="Enter email">
+                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Password</label>
+                                <input @bind-value="@UserRegisterDto.Password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                            </div>
+                        </div>
+                      <div class="row mb-1">
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Password Confirm</label>
+                                <input @bind-value="@UserRegisterDto.PasswordConfirm" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password Confirm">
+                            </div>
+                      </div>
+                        <div class="row">
+                            <div class="col-md-12 d-flex justify-content-end">
+                                <button type="button" class="btn btn-primary" @onclick="@ConfirmRegister">Submit</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input @bind-value="@UserRegisterDto.Password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Password Confirm</label>
-                    <input @bind-value="@UserRegisterDto.PasswordConfirm" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password Confirm">
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+            </div>
         </div>
-    </div>
+</div>
 </div>
 
+
 @code {
+
     private UserRegisterDto UserRegisterDto { get; set; } = new UserRegisterDto();
 
     RestClient RestClient = new RestClient();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        string authToken = await LocalStorage.GetItemAsStringAsync("authToken");
+
+        if (authToken != null)
+        {
+            bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure to exit?"); // Confirm
+
+            if (confirmed)
+            {
+                await LocalStorage.RemoveItemAsync("authToken");
+                var customAuthStateProvider = (CustomAuthenticationStateProvider)AuthStateProvider;
+                await customAuthStateProvider.GetAuthenticationStateAsync();
+                NavigationManager.NavigateTo("/register");
+            }
+            else
+            {
+                //NavigationManager.NavigateTo("/register");
+                NavigationManager.NavigateTo("");
+            }
+
+        }
+    }
+
+
+  
+
+
     private async Task ConfirmRegister()
     {
         RestDataResponse<UserRegisterDto> response = await RestClient.Post<UserRegisterDto>(UserRegisterDto, "Auth/Register");
-        
+
+        if(response.IsSuccess)
+        {
+            NavigationManager.NavigateTo("");
+            Snackbar.Add(response.Message, Severity.Success);
+        }
+
     }
 }

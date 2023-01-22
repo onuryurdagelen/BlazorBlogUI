@@ -2,57 +2,56 @@
 @layout MainLayout
 
 <div class="row mt-2">
-    <BSCard CardType="CardType.Card" Class="border-primary mb-3">
-        <BSCard CardType="CardType.Header" alt="Card image cap">Archived Articles</BSCard>
-        <BSCard CardType="CardType.Body" Class="text-primary">
-            @if (ArchivedArticlesVM == null)
-            {
-                <div class="row justify-content-center align-items-center">
-                    <BSSpinner></BSSpinner>
-                </div>
+    <RadzenCard>
+        <div class="row">
+            <RadzenText TextStyle="TextStyle.H6" Class="rz-color-primary-light"><strong>Archived Articles</strong></RadzenText>
+        </div>
+        @if (ArchivedArticlesVM == null)
+        {
+            <div class="row justify-content-center align-items-center">
+                <BSSpinner></BSSpinner>
+            </div>
 
-            }
-            @if (ArchivedArticlesVM != null && ArchivedArticlesVM.Count == 0)
+        }
+        else
+        {
+            if (ArchivedArticlesVM?.Count > 0)
             {
-                <div class="row justify-content-center align-items-center">
-                   Archived Articles is empty!
-                </div>
-            }
-            else
-            {
-                if (ArchivedArticlesVM.Count > 0)
+                foreach (var aa in ArchivedArticlesVM)
                 {
-                    foreach (var aa in ArchivedArticlesVM)
-                    {
-                        <h3>
-                            <strong>
-                                <a class="btn btn-link" href="/articles/@aa.year/@aa.month">
-                                    <i class="fas fa-arrow-right"></i>  @aa.year @aa.monthName
-                                </a>
-                            </strong>
-                        </h3>
-                    }
+                    <div class="row">
+                        <RadzenText TextStyle="TextStyle.Body1" Class="rz-color-primary-light">
+                            <a class="btn btn-link rz-color-black" href="/articles/@aa.year/@aa.month">
+                                <i class="fas fa-arrow-right"></i> <strong>@aa.year @aa.monthName</strong>
+                            </a>
+                        </RadzenText>
+                    </div>
                 }
-
             }
 
+        }
 
-        </BSCard>
-    </BSCard>
-
+    </RadzenCard>
 </div>
+
 
 @code {
     [Inject]
     HttpClient HttpClient { get; set; }
+
+    RestClient RestClient = new RestClient();
 
     private List<ArchivedArticleVM> ArchivedArticlesVM { get; set; }
     public int tillTheYears { get; set; } = 5;
 
     protected override async Task OnInitializedAsync()
     {
-
-        ArchivedArticlesVM = await HttpClient.GetFromJsonAsync<List<ArchivedArticleVM>>($"Articles/ArchivesArticles/{tillTheYears}");
+        //
+        RestDataResponse<List<ArchivedArticleVM>> response = await RestClient.Get<List<ArchivedArticleVM>>($"Articles/ArchivesArticles/{tillTheYears}");
+        if (response.IsSuccess)
+        {
+            ArchivedArticlesVM = response.Data;
+        }
 
         StateHasChanged();
     }

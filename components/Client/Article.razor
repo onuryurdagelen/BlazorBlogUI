@@ -2,16 +2,85 @@
 @layout MainLayout
 
 
-<div class="card border-primary mb-3">
+<RadzenCard class="mb-3">
+    <div class="row mt-2">
+        <div class="col-md-4">
+            @if(ArticleVM.Picture != null)
+            {
+                <RadzenImage Path="@ArticleVM.Picture" Class="rounded-circle float-start me-3" Style="width: 100px; height: 100px;" />
+            }
+            else
+            {
+                <RadzenImage Path="./assets/placeholder-image.jpg" Class="rounded-circle float-start me-3" Style="width: 100px; height: 100px;" />
+            }
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <RadzenText TextStyle="TextStyle.H6" Class="d-flex mt-1 mb-0">@ArticleVM.Name</RadzenText>
+            </div>
+            <div class="row">
+                <RadzenText TextStyle="TextStyle.Overline" Class="d-flex mt-1 mb-0">@ArticleVM.ContentSummary</RadzenText>
+            </div>
+        </div>
+      
+    </div>
+    <div class="row mt-2">
+        <div class="col-md-5 d-flex justify-content-between align-items-center">
+            <RadzenBadge class="rz-background-color-primary-light">
+                <div style=" display: flex; align-items: center; padding: 0 0.25rem 0 0; gap: 0.25rem; text-transform: none;">
+                    <i class="fas fa-calendar-week"></i> @ArticleVM.PublishDate.ToString("d")
+                </div>
+            </RadzenBadge>
+            <RadzenBadge class="rz-background-color-primary-light">
+                <div style=" display: flex; align-items: center; padding: 0 0.25rem 0 0; gap: 0.25rem; text-transform: none;">
+                    <i class="fas fa-folders"></i>  @ArticleVM.Category.Name
+                </div>
+            </RadzenBadge>
+            <RadzenBadge class="rz-background-color-primary-light">
+                <div style=" display: flex; align-items: center; padding: 0 0.25rem 0 0; gap: 0.25rem; text-transform: none;">
+                    <i class="fas fa-eye"></i>  @ArticleVM.ViewCount
+                </div>
+            </RadzenBadge>
+            <RadzenBadge class="rz-background-color-primary-light">
+                <div style=" display: flex; align-items: center; padding: 0 0.25rem 0 0; gap: 0.25rem; text-transform: none;">
+                    <i class="fas fa-comments"></i> @ArticleVM.Comments.Count
+                </div>
+            </RadzenBadge>
+       </div>
+        <div class="col-md-7 d-flex justify-content-end">
+
+            <a style="color:white;" class="rz-background-color-primary-light" href="/article/@ArticleVM.Id">
+                       <RadzenButton Text="Read More">
+                        </RadzenButton>
+                    </a>
+           
+          
+        </div>
+    </div>
+</RadzenCard>
+
+
+
+
+
+
+
+@*<div class="card border-primary mb-3">
     <div class="card-body">
         <div class="row m-2">
             <div class="col-md-4">
-                <img src="./assets/images.png"/>
+                @if(ArticleVM.Picture != null)
+                {
+                    <img style="height:230px;" src="@ArticleVM.Picture" class="img-fluid" />
+                }
+                else
+                {
+                    <img style="height:230px;" src="./assets/placeholder-image.jpg" class="img-fluid" />
+                }
             </div>
             <div class="col-md-8">
                 <h4 class="mb-2">@ArticleVM.Name | @ArticleVM.Id</h4>
                 <p>@ArticleVM.ContentSummary</p>
-                <p>...</p>
             </div>
         </div>
     </div>
@@ -29,7 +98,7 @@
           </div>
         </div>
     </div>
-</div>
+</div>*@
 
 
 @code {

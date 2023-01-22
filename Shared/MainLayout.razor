@@ -1,15 +1,16 @@
 ﻿@inherits LayoutComponentBase
 @using BlogBlazorUI.components.Client
 <Navbar></Navbar>
+
 <div class="container mt-2">
     <div class="row">
         <BlogBlazorUI.Utils.CustomErrorBoundary @ref="ErrorBoundary" Context="Exception">
             <ChildContent>
                 @Body
                 <div class="col-md-4">
-                   @* <MenuCategory></MenuCategory>
+                    <MenuCategory></MenuCategory>
                     <MostViewedArticles></MostViewedArticles>
-                    <ArchivedArticles></ArchivedArticles>*@
+                    <ArchivedArticles></ArchivedArticles>
                 </div>
             </ChildContent>
             <ErrorContent>

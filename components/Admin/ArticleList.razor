@@ -1,0 +1,168 @@
+﻿@layout AdminLayout
+@using System.Net.Http.Json
+@using BlogBlazorUI.Models;
+@using Microsoft.AspNetCore.Http;
+@using System.Diagnostics;
+@inject HttpClient httpClient
+@inject ISnackbar Snackbar
+@page "/dashboard/articles"
+
+<div class="col-md-4">
+
+   <RadzenCard>
+       <RadzenStack Orientation="Radzen.Orientation.Vertical">
+            <RadzenStack Orientation="Radzen.Orientation.Vertical">
+                <RadzenRow>
+
+                    <RadzenText  TextStyle="TextStyle.H5" TagName="TagName.H5" class="mb-0">
+                        <i class="fas fa-plus"></i> Add Article
+                    </RadzenText>
+                </RadzenRow>
+            </RadzenStack>
+            <RadzenStack Orientation="Radzen.Orientation.Vertical">
+                <RadzenRow>
+                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" class="mb-0">Article Title</RadzenText>
+                    <RadzenTextBox @bind-Value="@AddArticleDto.Title" Class="w-100" />
+                </RadzenRow>
+           </RadzenStack>
+            <RadzenStack Orientation="Radzen.Orientation.Vertical">
+                <RadzenRow>
+                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" class="mb-0">Article Content</RadzenText>
+                    <RadzenTextArea  @bind-Value="@AddArticleDto.Content" Placeholder="Enter here..." Class="w-100" />
+                </RadzenRow>
+           </RadzenStack>
+            <RadzenStack Orientation="Radzen.Orientation.Vertical">
+                <RadzenRow>
+                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" class="mb-0">Article Category</RadzenText>
+                    <RadzenDropDown  TextProperty="text" @bind-Value=@CategoryVM Data="@Categories" AllowClear="true" TValue="CategoryVM" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowFiltering="true" Class="w-100"
+                                    Placeholder="Select..." />
+                </RadzenRow>
+           </RadzenStack>
+            <RadzenStack Orientation="Radzen.Orientation.Vertical">
+                <RadzenRow>
+                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" class="mb-0">Article Image</RadzenText>
+                   <RadzenRow>
+                        <InputUpload @bind-Value="@formFile" />
+                   </RadzenRow>
+                    
+                </RadzenRow>
+           </RadzenStack>
+            <RadzenStack Orientation="Radzen.Orientation.Vertical">
+                <RadzenRow>
+                    <RadzenButton Click="@AddArticle"  Text="Submit" ButtonStyle="Radzen.ButtonStyle.Primary" />
+                </RadzenRow>
+            </RadzenStack>
+       </RadzenStack>
+      
+       
+       
+       
+   </RadzenCard>
+</div>
+<div class="col-md-8">
+
+
+    @if(Articles == null){
+    <div class="row justify-content-center align-items-center">
+        <BSSpinner></BSSpinner>
+    </div>
+    }
+   else {
+    <RadzenDataGrid @ref="@grid" AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                    Data="@Articles" TItem="ArticleVM" LogicalFilterOperator="LogicalFilterOperator.Or">
+        <Columns>
+            <RadzenDataGridColumn TItem="ArticleVM" Property="Id" Filterable="false" Title="ID" Width="80px" TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="ArticleVM" Title="Article Image" Sortable="false" Filterable="false" Width="160px" TextAlign="TextAlign.Center">
+                <Template Context="data">
+                        @if(data.Picture == null)
+                        {
+                            <RadzenImage Path="./assets/placeholder-image.jpg" class="rz-gravatar" />
+                        }
+                        else
+                        {
+                            <RadzenImage Path="@data.Picture" class="rz-gravatar" />
+                        }
+                    </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="ArticleVM" Property="Name" Title="Article Name" Width="160px" />
+            <RadzenDataGridColumn TItem="ArticleVM" Property="PublishDate" Title="Publish Date" Width="160px" />
+            <RadzenDataGridColumn TItem="ArticleVM" Property="ViewCount" Title="View Count" Width="200px" />
+            <RadzenDataGridColumn TItem="ArticleVM" Property="CategoryId" Title="Category Id" Width="200px" />
+        </Columns>
+    </RadzenDataGrid>
+   }
+
+</div>
+@code {
+    private List<ArticleVM> Articles { get; set; }
+    private List<CategoryVM> Categories { get; set; } = new List<CategoryVM>();
+    private AddArticleDto AddArticleDto { get; set; } = new AddArticleDto();
+    private CategoryVM CategoryVM { get; set; } = new CategoryVM();
+    RadzenDataGrid<ArticleVM> grid { get; set; }
+    RestClient RestClient = new RestClient();
+
+    private IBrowserFile formFile { get; set; }
+
+    private int maxAllowedFiles = int.MaxValue;
+    private long maxFileSize = long.MaxValue;
+
+
+
+    private Task OnFileChange(UploadFile file)
+    {
+        formFile = file.File;
+        return Task.FromResult("");
+    }
+    private Task<bool> OnFileDelete(UploadFile item)
+    {
+        return Task.FromResult(true);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        RestDataResponse<List<ArticleVM>> response = await httpClient.GetFromJsonAsync<RestDataResponse<List<ArticleVM>>>("Articles");
+
+        Categories = await httpClient.GetFromJsonAsync<List<CategoryVM>>("Categories");
+        CategoryVM.Id = Categories[0].Id;
+        CategoryVM.Name = Categories[0].Name;
+
+        if (response.IsSuccess)
+        {
+            Articles = response.Data;
+        }
+        else
+        {
+            Articles = new List<ArticleVM>();
+        }
+    }
+    private async Task AddArticle()
+    {
+        AddArticleDto.CategoryId = CategoryVM.Id;
+        AddArticleDto.UploadedFile = new UploadedFileDto();
+        if(formFile != null)
+        {
+            using (var ms = new MemoryStream())
+            {
+                await formFile.OpenReadStream().CopyToAsync(ms);
+                AddArticleDto.UploadedFile.FileName = formFile.Name;
+                AddArticleDto.UploadedFile.FileSize = formFile.Size;
+                //AddArticleDto.UploadedFile.FileExtension = formFile;
+                AddArticleDto.UploadedFile.FileContent = ms.ToArray();
+            }
+        }
+        HttpResponseMessage response = await httpClient.PostAsJsonAsync<AddArticleDto>("Articles/AddArticle",AddArticleDto);
+        //RestDataResponse<AddArticleDto> response = await RestClient.Post<AddArticleDto>(AddArticleDto, "");
+
+        if (response.IsSuccessStatusCode)
+        {
+            Snackbar.Add(response.Content.ReadAsStringAsync().Result, Severity.Success);
+        }
+        else
+        {
+            System.Console.WriteLine(response.Content.ReadAsStringAsync().Result);
+            Snackbar.Add(response.Content.ReadAsStringAsync().Result, Severity.Error);
+        }
+    }
+
+  
+}

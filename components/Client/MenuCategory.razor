@@ -2,43 +2,35 @@
 @layout MainLayout
 
 <div class="row">
-    <BSCard CardType="CardType.Card" Class="border-primary mb-3">
-        <BSCard CardType="CardType.Header" alt="Card image cap">Categories</BSCard>
-        <BSCard CardType="CardType.Body" Class="text-primary">
-            @if (MenuCategories == null)
-            {
-                <div class="row justify-content-center align-items-center">
-                    <BSSpinner></BSSpinner>
-                </div>
+    <RadzenCard>
+        <div class="row">
+            <RadzenText TextStyle="TextStyle.H6" Class="rz-color-primary-light"><strong>Article Categories</strong></RadzenText>
+        </div>
+        @if (MenuCategories == null)
+        {
+            <div class="row justify-content-center align-items-center">
+                <BSSpinner></BSSpinner>
+            </div>
 
-            }
-            else if(MenuCategories != null && MenuCategories.Count == 0)
+        }
+        else
+        {
+            if (MenuCategories?.Count > 0)
             {
-                <div class="row justify-content-center align-items-center">
-                    <h3>Menu Categories is empty</h3>
-                </div>
-            }
-            else
-            {
-                if (MenuCategories.Count > 0)
+                foreach (var mc in MenuCategories)
                 {
-                    foreach (var mc in MenuCategories)
-                    {
-                        <h3>
-                            <strong>
-                                <a class="btn btn-link" href="/articles/@mc.Id">
-                                    <i class="fas fa-arrow-right"></i> @mc.Name
-                                </a>
-                            </strong>
-                        </h3>
-                    }
+                    <div class="row">
+                        <RadzenText TextStyle="TextStyle.Body1" Class="rz-color-primary-light">
+                            <a class="btn btn-link rz-color-black" href="/articles/@mc.Id">
+                                <i class="fas fa-arrow-right"></i> <strong>@mc.Name</strong>
+                        </a></RadzenText>
+                    </div>
                 }
-
             }
 
-
-        </BSCard>
-    </BSCard>
+        }
+      
+    </RadzenCard>
 </div>
 
 

@@ -2,52 +2,44 @@
 @layout MainLayout
 
 <div class="row mt-2">
-    <BSCard CardType="CardType.Card" Class="border-primary mb-3">
-        <BSCard CardType="CardType.Header" alt="Card image cap">Most Viewed Articles</BSCard>
-        <BSCard CardType="CardType.Body" Class="text-primary">
-            @if (MVArticles == null)
-            {
-                <div class="row justify-content-center align-items-center">
-                    <BSSpinner></BSSpinner>
-                </div>
+    <RadzenCard>
+        <div class="row">
+            <RadzenText TextStyle="TextStyle.H6" Class="rz-color-primary-light"><strong>Most Viewed Articles</strong></RadzenText>
+        </div>
+        @if (MVArticles == null)
+        {
+            <div class="row justify-content-center align-items-center">
+                <BSSpinner></BSSpinner>
+            </div>
 
-            }
-            @if (MVArticles != null || MVArticles.Count == 0)
+        }
+        else
+        {
+            if (MVArticles?.Count > 0)
             {
-                <div class="row justify-content-center align-items-center">
-                    <h3>Most Viewed Articles is empty!</h3>
-                </div>
-
-            }
-            else
-            {
-                if (MVArticles.Count > 0)
+                foreach (var mva in MVArticles)
                 {
-                    foreach (var mva in MVArticles)
-                    {
-                        <h3>
-                            <strong>
-                                <a class="btn btn-link" href="/article/@mva.Id">
-                                    <i class="fas fa-arrow-right"></i> @mva.Name
-                                </a>
-                            </strong>
-                        </h3>
-                    }
+                    <div class="row">
+                        <RadzenText TextStyle="TextStyle.Body1" Class="rz-color-primary-light">
+                            <a class="btn btn-link rz-color-black" href="/article/@mva.Id">
+                                <i class="fas fa-arrow-right"></i> <strong>@mva.Name</strong>
+                            </a>
+                        </RadzenText>
+                    </div>
                 }
-
             }
 
+        }
 
-        </BSCard>
-    </BSCard>
-
+    </RadzenCard>
 </div>
+
 
 @code {
     [Inject]
     HttpClient HttpClient { get; set; }
 
-    private List<ArticleVM> MVArticles { get; set; }
+    private List<ArticleVM>? MVArticles { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

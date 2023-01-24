@@ -1,6 +1,7 @@
 ﻿@layout AdminLayout
 @using System.Net.Http.Json
 @using BlogBlazorUI.Models;
+@using BlogBlazorUI.Service;
 @using Microsoft.AspNetCore.Http;
 @using System.Diagnostics;
 @inject HttpClient httpClient
@@ -99,7 +100,8 @@
     private AddArticleDto AddArticleDto { get; set; } = new AddArticleDto();
     private CategoryVM CategoryVM { get; set; } = new CategoryVM();
     RadzenDataGrid<ArticleVM> grid { get; set; }
-    RestClient RestClient = new RestClient();
+
+    private ErrorVM[] Errors { get; set; }
 
     private IBrowserFile formFile { get; set; }
 
@@ -146,21 +148,34 @@
                 await formFile.OpenReadStream().CopyToAsync(ms);
                 AddArticleDto.UploadedFile.FileName = formFile.Name;
                 AddArticleDto.UploadedFile.FileSize = formFile.Size;
-                //AddArticleDto.UploadedFile.FileExtension = formFile;
+                AddArticleDto.UploadedFile.FileExtension = formFile.ContentType;
                 AddArticleDto.UploadedFile.FileContent = ms.ToArray();
             }
         }
-        HttpResponseMessage response = await httpClient.PostAsJsonAsync<AddArticleDto>("Articles/AddArticle",AddArticleDto);
-        //RestDataResponse<AddArticleDto> response = await RestClient.Post<AddArticleDto>(AddArticleDto, "");
-
-        if (response.IsSuccessStatusCode)
+        if (!await ArticleService.AddArticle(new ApiHelper(), AddArticleDto, "Articles/AddArticle"))
         {
-            Snackbar.Add(response.Content.ReadAsStringAsync().Result, Severity.Success);
+            if(ArticleService.AddArticleDtoResponse.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                Errors = ArticleService.Errors;
+                string errors = "";
+                foreach (var error in Errors)
+                {
+                    foreach (var val in error.value)
+                    {
+                        errors += "* " + val + "\n";
+                    }
+                }
+                Snackbar.Add(errors, Severity.Warning);
+            }
+            if(ArticleService.AddArticleDtoResponse.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                Snackbar.Add(ArticleService.AddArticleDtoResponse.Message, Severity.Warning);
+            }
+
         }
         else
         {
-            System.Console.WriteLine(response.Content.ReadAsStringAsync().Result);
-            Snackbar.Add(response.Content.ReadAsStringAsync().Result, Severity.Error);
+            Snackbar.Add("Successful.", Severity.Success);
         }
     }
 

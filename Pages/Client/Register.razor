@@ -1,5 +1,7 @@
 ﻿@layout AdditionalLayout
 @page "/register"
+@using BlogBlazorUI.Models;
+@using BlogBlazorUI.Service;
 @using BlogBlazorUI.Utils;
 @inject NavigationManager NavigationManager;
 @inject AuthenticationStateProvider AuthStateProvider
@@ -58,8 +60,9 @@
 @code {
 
     private UserRegisterDto UserRegisterDto { get; set; } = new UserRegisterDto();
+    private string errors {get;set;}
 
-    RestClient RestClient = new RestClient();
+    private ErrorVM[] Errors { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
@@ -85,18 +88,32 @@
         }
     }
 
-
-  
-
-
     private async Task ConfirmRegister()
     {
-        RestDataResponse<UserRegisterDto> response = await RestClient.Post<UserRegisterDto>(UserRegisterDto, "Auth/Register");
-
-        if(response.IsSuccess)
+        //RestDataResponse<UserRegisterDto> response = await WebApiService.WriteToAPI<UserRegisterDto>(UserRegisterDto, "Auth/Register");
+        if (!await AuthService.Register(new ApiHelper(), UserRegisterDto, "Auth/Register"))
         {
-            NavigationManager.NavigateTo("");
-            Snackbar.Add(response.Message, Severity.Success);
+            if(AuthService.RegisterResponse.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                Snackbar.Add(AuthService.RegisterResponse.Message, Severity.Warning);
+            }
+            if(AuthService.RegisterResponse.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                Errors = AuthService.Errors;
+                foreach (var error in AuthService.Errors)
+                {
+                    foreach (string val in error.value)
+                    {
+                        errors += "* " + val + Environment.NewLine;
+                    }
+                }
+                Snackbar.Add(errors, Severity.Warning);
+            }
+        }
+        else
+        {
+                NavigationManager.NavigateTo("");
+                Snackbar.Add(AuthService.RegisterResponse.Message, Severity.Success);
         }
 
     }

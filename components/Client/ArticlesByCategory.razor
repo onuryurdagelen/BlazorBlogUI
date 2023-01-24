@@ -3,6 +3,7 @@
 @using BlogBlazorUI.Dtos;
 @using BlogBlazorUI.Models;
 @using BlogBlazorUI.Results;
+@using BlogBlazorUI.Service;
 @using BlogBlazorUI.Utils;
 
 @if (ArticlesAsCategory == null)
@@ -54,8 +55,6 @@
     [Inject]
     public HttpClient HttpClient { get; set; }
 
-    RestClient RestClient = new RestClient();
-
     [Inject]
     public NavigationManager NavigationManager { get; set; }
 
@@ -83,24 +82,21 @@
 
     protected async Task getArticlesAsPaginately(int pageIndex)
     {
-        RestDataResponse<ArticleDto> result = await RestClient.Get<ArticleDto>($"Articles/ArticlesAsCategory/{categoryId}/{pageIndex}/{pageCount}");
 
-        if (result == null)
+        if (!await ArticleService.GetArticlesAsCategory(new ApiHelper(), $"Articles/ArticlesAsCategory/{categoryId}/{pageIndex}/{pageCount}"))
         {
-            ErrorMessage = "Hata!";
+            System.Console.WriteLine("articles by categories error");
         }
-        else
-        {
-            ArticlesAsCategory = result.Data.Articles;
-            TotalCount = result.Data.TotalCount;
+            ArticlesAsCategory = ArticleService.ArticlesAsCategoryResponse.Data.Articles;
+            TotalCount = ArticleService.ArticlesAsCategoryResponse.Data.TotalCount;
             CategoryName = ArticlesAsCategory.Select(x => x.Category.Name).FirstOrDefault();
 
-        }
         paginationCount = Decimal.ToInt32(Math.Floor(Convert.ToDecimal(TotalCount / pageCount)));
         if (TotalCount % pageCount != 0)
         {
             this.paginationCount += 1;
         }
+   
         StateHasChanged();
 
     }

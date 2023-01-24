@@ -5,6 +5,7 @@
 @using BlogBlazorUI.Models;
 @using BlogBlazorUI.Results;
 @using BlogBlazorUI.Service.Helpers;
+@using BlogBlazorUI.Service;
 @using BlogBlazorUI.components.Client;
 
 @if (Articles == null)
@@ -48,7 +49,6 @@
     [Inject]
     HttpClient HttpClient { get; set; }
 
-    RestClient RestClient { get; set; } = new RestClient();
 
     public List<ArticleVM> Articles { get; set; }
 
@@ -85,19 +85,12 @@
     }
     protected async Task getArticlesAsPaginately(int pageIndex)
     {
-        
-        Results.RestDataResponse<ArticleDto> result = await RestClient.Get<ArticleDto>($"Articles/{pageIndex}/{this.pageCount}");
-
-        if (result.Error != null)
+        if (!await ArticleService.GetArticles(new ApiHelper(),$"Articles/{pageIndex}/{this.pageCount}"))
         {
-            ErrorMessage = "Hata!";
+            System.Console.WriteLine("hata meydana geldi.");
         }
-        else
-        {
-            this.Articles = result.Data.Articles;
-            TotalCount = result.Data.TotalCount;
-
-        }
+        this.Articles = ArticleService.ArticlesResponse.Data.Articles;
+        TotalCount = ArticleService.ArticlesResponse.Data.TotalCount;
 
     }
     protected override async Task OnParametersSetAsync()

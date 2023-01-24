@@ -3,6 +3,7 @@
 @using BlogBlazorUI.Dtos;
 @using BlogBlazorUI.Models;
 @using BlogBlazorUI.Results;
+@using BlogBlazorUI.Service;
 @using BlogBlazorUI.Utils;
 
 @if (ArchivedArticles == null || ArchivedArticles.Count == 0)
@@ -74,23 +75,12 @@
 
     protected async Task getArticlesAsPaginately(int pageIndex)
     {
-        RestDataResponse<ArticleDto> result = await HttpClient.GetFromJsonAsync<RestDataResponse<ArticleDto>>($"Articles/ListOfArchivedArticles/{year}/{month}/{pageIndex}/{pageCount}");
-
-        if (result == null)
+        if (!await ArticleService.GetListOfArchivedArticles(new ApiHelper(),$"Articles/ListOfArchivedArticles/{year}/{month}/{pageIndex}/{pageCount}"))
         {
-            ErrorMessage = "Hata!";
+            System.Console.WriteLine("List of archived articles error.");
         }
-        else
-        {
-            ArchivedArticles = result.Data.Articles;
-            TotalCount = result.Data.TotalCount;
-
-        }
-        paginationCount = Decimal.ToInt32(Math.Floor(Convert.ToDecimal(TotalCount / pageCount)));
-        if (TotalCount % pageCount != 0)
-        {
-            this.paginationCount += 1;
-        }
+        ArchivedArticles = ArticleService.ListOfArchivedArticlesResponse.Data.Articles;
+        TotalCount = ArticleService.ListOfArchivedArticlesResponse.Data.TotalCount;
         StateHasChanged();
 
     }

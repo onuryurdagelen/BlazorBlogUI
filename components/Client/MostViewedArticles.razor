@@ -1,4 +1,5 @@
 ﻿@using BlogBlazorUI.Models;
+@using BlogBlazorUI.Service;
 @layout MainLayout
 
 <div class="row mt-2">
@@ -36,15 +37,18 @@
 
 
 @code {
-    [Inject]
-    HttpClient HttpClient { get; set; }
 
     private List<ArticleVM>? MVArticles { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
 
-        MVArticles = await HttpClient.GetFromJsonAsync<List<ArticleVM>>($"Articles/MostViewedArticles");
+        if (!await ArticleService.GetMostViewedArticles(new ApiHelper(),"Articles/MostViewedArticles"))
+        {
+            System.Console.WriteLine("Most viewed articles error");
+        }
+        MVArticles = ArticleService.MostViewedArticlesResponse.Data;
+
 
         StateHasChanged();
     }

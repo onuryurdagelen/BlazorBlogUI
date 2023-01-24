@@ -1,5 +1,6 @@
 ﻿@page "/article/{articleId:int}"
 @using BlogBlazorUI.Models;
+@using BlogBlazorUI.Service;
 
 @if(ArticleVM != null)
 {
@@ -65,16 +66,12 @@ else
     protected override async Task OnParametersSetAsync()
     {
         ArticleVM = null;
-        ArticleVM result = await HttpClient.GetFromJsonAsync<ArticleVM>($"Articles/{articleId}");
 
-        if (result == null)
+        if (!await ArticleService.GetArticle(new ApiHelper(), $"Articles/{articleId}"))
         {
-            ErrorMessage = "Hata!";
+            System.Console.WriteLine("article detail error");
         }
-        else
-        {
-            ArticleVM = result;
-        }
+        ArticleVM = ArticleService.ArticleResponse.Data;
 
         StateHasChanged();
     }

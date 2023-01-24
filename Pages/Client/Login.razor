@@ -1,5 +1,7 @@
 ﻿@layout AdditionalLayout
 @page "/login"
+@using BlogBlazorUI.Models;
+@using BlogBlazorUI.Service;
 @using BlogBlazorUI.Utils;
 
 @inject ILocalStorageService LocalStorage;
@@ -44,9 +46,12 @@
 
 @code {
     private UserLoginDto UserLoginDto { get; set; } = new UserLoginDto();
-    RestClient RestClient = new RestClient();
+    private List<ErrorVM> Errors { get; set; }
+
+    private TokenDto Token { get; set; }
 
     public string returnUrl { get; set; }
+    private string errors { get; set; }
     protected override async Task OnInitializedAsync()
     {
 
@@ -68,19 +73,37 @@
 
     public async Task ConfirmLogin()
     {
-        RestDataResponse<TokenDto> response = await RestClient.Post<TokenDto>(UserLoginDto, "Auth/Login");
+        //RestDataResponse<TokenDto> response = await WebApiService.WriteToAPI<TokenDto>(UserLoginDto, "Auth/Login");
 
-
-        if (response.IsSuccess)
+        if (!await AuthService.Login(new ApiHelper(), UserLoginDto, "Auth/Login"))
         {
-            await LocalStorage.SetItemAsStringAsync("authToken", response.Data.AccessToken);
+            if(AuthService.TokenResponse.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                Snackbar.Add(AuthService.TokenResponse.Message, Severity.Warning);
+            }
+            if(AuthService.TokenResponse.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                foreach (var error in AuthService.Errors)
+                {
+                    errors += "* " + error.value[0] + Environment.NewLine;
+                }
+
+                Snackbar.Add(errors, Severity.Warning);
+            }
+           
+            //hata mesajı gönder.
+           
+        }
+        else
+        {
+            await LocalStorage.SetItemAsStringAsync("authToken", AuthService.TokenResponse.Data.AccessToken);
             var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
             await customAuthStateProvider.GetAuthenticationStateAsync();
-            if(returnUrl == null)
+            if (returnUrl == null)
                 NavigationManager.NavigateTo("");
             else
             {
-                if(returnUrl != "register")
+                if (returnUrl != "register")
                 {
                     NavigationManager.NavigateTo(returnUrl);
                 }
@@ -90,13 +113,9 @@
                 }
             }
 
-            Snackbar.Add(response.Message, Severity.Success);
+            Snackbar.Add(AuthService.TokenResponse.Message, Severity.Success);
         }
-        else
-        {
-            //hata mesajı gönder.
-            Snackbar.Add(response.Message, Severity.Warning);
-        }
+
 
        
         

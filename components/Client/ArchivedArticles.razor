@@ -1,4 +1,5 @@
 ﻿@using BlogBlazorUI.Models;
+@using BlogBlazorUI.Service;
 @layout MainLayout
 
 <div class="row mt-2">
@@ -36,22 +37,17 @@
 
 
 @code {
-    [Inject]
-    HttpClient HttpClient { get; set; }
-
-    RestClient RestClient = new RestClient();
 
     private List<ArchivedArticleVM> ArchivedArticlesVM { get; set; }
     public int tillTheYears { get; set; } = 5;
 
     protected override async Task OnInitializedAsync()
     {
-        //
-        RestDataResponse<List<ArchivedArticleVM>> response = await RestClient.Get<List<ArchivedArticleVM>>($"Articles/ArchivesArticles/{tillTheYears}");
-        if (response.IsSuccess)
+        if (!await ArticleService.GetArchivedArticles(new ApiHelper(), $"Articles/ArchivesArticles/{tillTheYears}"))
         {
-            ArchivedArticlesVM = response.Data;
+            System.Console.WriteLine("archived articles error");
         }
+        ArchivedArticlesVM = ArticleService.ArchivedArticlesResponse.Data;
 
         StateHasChanged();
     }

@@ -1,18 +1,19 @@
-﻿using System.Net.Http.Headers;
+﻿using BlogBlazorUI.Extensions;
+using System.Net.Http.Headers;
 using System.Net.Mime;
 
 namespace BlogBlazorUI.Service.Helpers
 {
-    public static class ApiHelper
+    public class ApiHelper
     {
-        public static HttpClient ApiClient { get; set; }
+        public HttpClient httpClient { get; set; }
 
-        public static void InitializeClient()
+        public ApiHelper()
         {
-            ApiClient = new HttpClient();
-            ApiClient.BaseAddress = new Uri("https://localhost:7176/api/");
-            ApiClient.DefaultRequestHeaders.Accept.Clear();
-            ApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+            httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri("https://localhost:7176/api/");
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
         }
     }
 }

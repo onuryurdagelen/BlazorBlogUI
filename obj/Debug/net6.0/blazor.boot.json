@@ -16,6 +16,7 @@
       "BlazorStrap.dll": "sha256-6kMmRB+XQlmri3MbVgrBE\/XCBysVsqDkU4OoSL7jdRo=",
       "BlazorStrap.V5.dll": "sha256-\/sAdLFTgfp+Cbx+Q9cEEovIgZk8qkjODuSiao3r\/Lys=",
       "BootstrapBlazor.dll": "sha256-tT+XSR+6EDkPP4AUyv3MpZrgep2TZvTDTDBkoiQZ1TU=",
+      "Faso.Blazor.SpinKit.dll": "sha256-xF7tQm77ONxvC0vTccvuZ6CnJ5sMabYcBrFHGOBLFa0=",
       "Microsoft.AspNetCore.Authorization.dll": "sha256-QoBf8ZUgaWJCUGT3n4SViOqz82zpsFTQBgBR38X0SQM=",
       "Microsoft.AspNetCore.Components.dll": "sha256-3t65GOJ1de1VQDnrDvkwNxyXORtXOrSScKJat53tcj0=",
       "Microsoft.AspNetCore.Components.Authorization.dll": "sha256-YZGwjpnGPMGIrOrgZPAxTbO6DPWKLGASzSulY+JLVLw=",
@@ -224,13 +225,13 @@
       "mscorlib.dll": "sha256-cx\/3nJhFns3tZhQNQOyiRyKJESKxOjLVufzWnri6KSA=",
       "netstandard.dll": "sha256-yWufW5W4SSfjocBcWTEDqnFwTd\/VYtLMc2Y9mPmlggc=",
       "System.Private.CoreLib.dll": "sha256-H009wzPwRoDZlwvpN4KLCsUwN7Y1AmjKB3PIEHA7ObQ=",
-      "BlogBlazorUI.dll": "sha256-xYHMwuDC1Kyw94XMB1VCkhBxWuEgBLy6IuBdNkA3LCQ="
+      "BlogBlazorUI.dll": "sha256-nuCtPcKrtZXcV7ogigJQvps7xQe3VklUNjnMLUSduzk="
     },
     "extensions": null,
     "lazyAssembly": null,
     "libraryInitializers": null,
     "pdb": {
-      "BlogBlazorUI.pdb": "sha256-NfXfK93N\/c7FtQ2LHV57bvc0qeC3NL1EaXze+PuDpro="
+      "BlogBlazorUI.pdb": "sha256-YKFhP+8Xe5Y1mH5JW4Mp9ifYgx421L6\/jGJjisonRaM="
     },
     "runtime": {
       "dotnet.6.0.11.egvp60nq9h.js": "sha256-F30V+6jU3jwJYFZoLuwMAqzTiOXu6q7zGgOdjYBofDI=",

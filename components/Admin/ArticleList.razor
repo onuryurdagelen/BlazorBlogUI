@@ -4,94 +4,120 @@
 @using BlogBlazorUI.Service;
 @using Microsoft.AspNetCore.Http;
 @using System.Diagnostics;
+@inject NavigationManager navManager;
 @inject HttpClient httpClient
 @inject ISnackbar Snackbar
 @page "/dashboard/articles"
+<div class="row">
+    <div class="col-md-4">
 
-<div class="col-md-4">
-
-   <RadzenCard>
-       <RadzenStack Orientation="Radzen.Orientation.Vertical">
+        <RadzenCard>
             <RadzenStack Orientation="Radzen.Orientation.Vertical">
-                <RadzenRow>
+                <RadzenStack Orientation="Radzen.Orientation.Vertical">
+                    <RadzenRow>
 
-                    <RadzenText  TextStyle="TextStyle.H5" TagName="TagName.H5" class="mb-0">
-                        <i class="fas fa-plus"></i> Add Article
-                    </RadzenText>
-                </RadzenRow>
+                        <RadzenText TextStyle="TextStyle.H5" TagName="TagName.H5" class="mb-0">
+                            <i class="fas fa-plus"></i> Add Article
+                        </RadzenText>
+                    </RadzenRow>
+                </RadzenStack>
+                <RadzenStack Orientation="Radzen.Orientation.Vertical">
+                    <RadzenRow>
+                        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" class="mb-0">Article Title</RadzenText>
+                        <RadzenTextBox @bind-Value="@AddArticleDto.Title" Class="w-100" />
+                    </RadzenRow>
+                </RadzenStack>
+                <RadzenStack Orientation="Radzen.Orientation.Vertical">
+                    <RadzenRow>
+                        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" class="mb-0">Article Content</RadzenText>
+                        <RadzenHtmlEditor @bind-Value="@AddArticleDto.Content" style="height: 300px; margin-bottom: 1rem;" UploadUrl="upload/image" />
+                    </RadzenRow>
+                </RadzenStack>
+                <RadzenStack Orientation="Radzen.Orientation.Vertical">
+                    <RadzenRow>
+                        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" class="mb-0">Article Category</RadzenText>
+                        <RadzenDropDown TextProperty="text" @bind-Value=@CategoryVM Data="@Categories" AllowClear="true" TValue="CategoryVM" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowFiltering="true" Class="w-100"
+                                        Placeholder="Select..." />
+                    </RadzenRow>
+                </RadzenStack>
+                <RadzenStack Orientation="Radzen.Orientation.Vertical">
+                    <RadzenRow>
+                        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" class="mb-0">Article Image</RadzenText>
+                        <RadzenRow>
+                            <InputUpload BrowserButtonIcon="fas fa-upload" @bind-Value="@formFile" />
+                        </RadzenRow>
+
+                    </RadzenRow>
+                </RadzenStack>
+                <RadzenStack Orientation="Radzen.Orientation.Vertical">
+                    <RadzenRow>
+                        <RadzenButton Click="@AddArticle" Text="Submit" ButtonStyle="Radzen.ButtonStyle.Primary" />
+                    </RadzenRow>
+                </RadzenStack>
             </RadzenStack>
-            <RadzenStack Orientation="Radzen.Orientation.Vertical">
-                <RadzenRow>
-                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" class="mb-0">Article Title</RadzenText>
-                    <RadzenTextBox @bind-Value="@AddArticleDto.Title" Class="w-100" />
-                </RadzenRow>
-           </RadzenStack>
-            <RadzenStack Orientation="Radzen.Orientation.Vertical">
-                <RadzenRow>
-                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" class="mb-0">Article Content</RadzenText>
-                    <RadzenTextArea  @bind-Value="@AddArticleDto.Content" Placeholder="Enter here..." Class="w-100" />
-                </RadzenRow>
-           </RadzenStack>
-            <RadzenStack Orientation="Radzen.Orientation.Vertical">
-                <RadzenRow>
-                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" class="mb-0">Article Category</RadzenText>
-                    <RadzenDropDown  TextProperty="text" @bind-Value=@CategoryVM Data="@Categories" AllowClear="true" TValue="CategoryVM" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowFiltering="true" Class="w-100"
-                                    Placeholder="Select..." />
-                </RadzenRow>
-           </RadzenStack>
-            <RadzenStack Orientation="Radzen.Orientation.Vertical">
-                <RadzenRow>
-                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" class="mb-0">Article Image</RadzenText>
-                   <RadzenRow>
-                        <InputUpload @bind-Value="@formFile" />
-                   </RadzenRow>
-                    
-                </RadzenRow>
-           </RadzenStack>
-            <RadzenStack Orientation="Radzen.Orientation.Vertical">
-                <RadzenRow>
-                    <RadzenButton Click="@AddArticle"  Text="Submit" ButtonStyle="Radzen.ButtonStyle.Primary" />
-                </RadzenRow>
-            </RadzenStack>
-       </RadzenStack>
-      
-       
-       
-       
-   </RadzenCard>
-</div>
-<div class="col-md-8">
 
 
-    @if(Articles == null){
-    <div class="row justify-content-center align-items-center">
-        <BSSpinner></BSSpinner>
+
+
+        </RadzenCard>
     </div>
-    }
-   else {
-    <RadzenDataGrid @ref="@grid" AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
-                    Data="@Articles" TItem="ArticleVM" LogicalFilterOperator="LogicalFilterOperator.Or">
-        <Columns>
-            <RadzenDataGridColumn TItem="ArticleVM" Property="Id" Filterable="false" Title="ID" Width="80px" TextAlign="TextAlign.Center" />
-            <RadzenDataGridColumn TItem="ArticleVM" Title="Article Image" Sortable="false" Filterable="false" Width="160px" TextAlign="TextAlign.Center">
-                <Template Context="data">
-                        @if(data.Picture == null)
-                        {
-                            <RadzenImage Path="./assets/placeholder-image.jpg" class="rz-gravatar" />
-                        }
-                        else
-                        {
-                            <RadzenImage Path="@data.Picture" class="rz-gravatar" />
-                        }
-                    </Template>
-            </RadzenDataGridColumn>
-            <RadzenDataGridColumn TItem="ArticleVM" Property="Name" Title="Article Name" Width="160px" />
-            <RadzenDataGridColumn TItem="ArticleVM" Property="PublishDate" Title="Publish Date" Width="160px" />
-            <RadzenDataGridColumn TItem="ArticleVM" Property="ViewCount" Title="View Count" Width="200px" />
-            <RadzenDataGridColumn TItem="ArticleVM" Property="CategoryId" Title="Category Id" Width="200px" />
-        </Columns>
-    </RadzenDataGrid>
-   }
+    <div class="col-md-8">
+        @if (Articles == null)
+        {
+            <div class="row justify-content-center align-items-center">
+                <BSSpinner></BSSpinner>
+            </div>
+        }
+        else
+        {
+            <RadzenDataGrid @ref="@grid" IsLoading="@isLoading" AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                            Data="@Articles" TItem="ArticleVM" LogicalFilterOperator="LogicalFilterOperator.Or">
+                <Columns>
+                    <RadzenDataGridColumn TItem="ArticleVM" Property="Id" Filterable="false" Title="ID" Width="80px" TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn TItem="ArticleVM" Title="Article Image" Sortable="false" Filterable="false" Width="160px" TextAlign="TextAlign.Center">
+                        <Template Context="data">
+                            @if (data.Picture == null)
+                            {
+                                <RadzenImage Path="./assets/placeholder-image.jpg" class="rz-gravatar" />
+                            }
+                            else
+                            {
+                                <RadzenImage Path="@data.Picture" class="rz-gravatar" />
+                            }
+                        </Template>
+                    </RadzenDataGridColumn>
+                    <RadzenDataGridColumn TItem="ArticleVM" Property="Name" Title="Article Name" Width="160px" />
+                    <RadzenDataGridColumn TItem="ArticleVM" Property="PublishDate" Title="Publish Date" Width="160px" />
+                    <RadzenDataGridColumn TItem="ArticleVM" Property="ViewCount" Title="View Count" Width="200px" />
+                    <RadzenDataGridColumn TItem="ArticleVM" Property="CategoryId" Title="Category Id" Width="200px" />
+                    <RadzenDataGridColumn TItem="ArticleVM" Context="data" Title="Actions" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="156px">
+                        <Template Context="data">
+                            <RadzenButton 
+                                Icon="edit" 
+                                Click="@(()=> navManager.NavigateTo($"dashboard/updateArticle/{data.Id}"))" 
+                                ButtonStyle="Radzen.ButtonStyle.Light" 
+                                Variant="Radzen.Variant.Flat" 
+                                Size="ButtonSize.Medium">
+                            </RadzenButton>
+                            <RadzenButton Click="(()=> DeleteArticle(data.Id))"
+                                ButtonStyle="Radzen.ButtonStyle.Danger" 
+                                Icon="delete"
+                                
+                                Variant="Radzen.Variant.Flat" 
+                                Shade="Shade.Lighter" 
+                                Size="ButtonSize.Medium" 
+                                Class="my-1 ms-1">
+                            </RadzenButton>
+                        </Template>
+                    </RadzenDataGridColumn>
+                </Columns>
+            </RadzenDataGrid>
+        }
+</div>
+
+
+
+ 
 
 </div>
 @code {
@@ -100,6 +126,7 @@
     private AddArticleDto AddArticleDto { get; set; } = new AddArticleDto();
     private CategoryVM CategoryVM { get; set; } = new CategoryVM();
     RadzenDataGrid<ArticleVM> grid { get; set; }
+    bool isLoading = false;
 
     private ErrorVM[] Errors { get; set; }
 
@@ -120,13 +147,36 @@
         return Task.FromResult(true);
     }
 
-    protected override async Task OnInitializedAsync()
+    void LoadData(LoadDataArgs args)
+    {
+
+
+    }
+    protected async Task DeleteArticle(int id)
+    {
+        if (!await ArticleService.DeleteArticle(new ApiHelper(), $"Articles/{id}"))
+        {
+            if(ArticleService.DeleteResponse.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                Snackbar.Add(ArticleService.DeleteResponse.Message, Severity.Error);
+            }
+            if(ArticleService.DeleteResponse.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+            {
+                Snackbar.Add(ArticleService.DeleteResponse.Error, Severity.Error);
+            }
+        }
+        else
+        {
+            Snackbar.Add(ArticleService.DeleteResponse.Message, Severity.Success);
+            await GetArticles();
+            await grid.Reload();
+        }
+        StateHasChanged();
+    }
+    protected async Task GetArticles()
     {
         RestDataResponse<List<ArticleVM>> response = await httpClient.GetFromJsonAsync<RestDataResponse<List<ArticleVM>>>("Articles");
 
-        Categories = await httpClient.GetFromJsonAsync<List<CategoryVM>>("Categories");
-        CategoryVM.Id = Categories[0].Id;
-        CategoryVM.Name = Categories[0].Name;
 
         if (response.IsSuccess)
         {
@@ -136,6 +186,13 @@
         {
             Articles = new List<ArticleVM>();
         }
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        Categories = await httpClient.GetFromJsonAsync<List<CategoryVM>>("Categories");
+        CategoryVM.Id = Categories[0].Id;
+        CategoryVM.Name = Categories[0].Name;
+        await GetArticles();
     }
     private async Task AddArticle()
     {
@@ -175,8 +232,13 @@
         }
         else
         {
-            Snackbar.Add("Successful.", Severity.Success);
+            Snackbar.Add(ArticleService.AddArticleDtoResponse.Message, Severity.Success);
+            //await grid.InsertRow(ArticleService.AddArticleDtoResponse.Data);
+            await GetArticles();
+            await grid.Reload();
+            AddArticleDto = new AddArticleDto();
         }
+            StateHasChanged();
     }
 
   

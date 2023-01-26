@@ -4,24 +4,29 @@ using BlogBlazorUI.Models;
 using BlogBlazorUI.Results;
 using BlogBlazorUI.Service.Helpers;
 using Newtonsoft.Json;
+using System;
 using System.Net;
 using System.Net.Http.Json;
 using System.Net.Mime;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace BlogBlazorUI.Service
 {
     public class ArticleService
     {
-        public static RestDataResponse<ArticleDto> ArticlesResponse { get; set; } 
+        public static RestDataResponse<ArticleDto> ArticlesResponse { get; set; }
         public static RestDataResponse<List<ArchivedArticleVM>> ArchivedArticlesResponse { get; set; }
         public static RestDataResponse<List<ArticleVM>> MostViewedArticlesResponse { get; set; }
         public static RestDataResponse<ArticleDto> ListOfArchivedArticlesResponse { get; set; }
         public static RestDataResponse<ArticleDto> ArticlesAsCategoryResponse { get; set; }
         public static RestDataResponse<ArticleVM> ArticleResponse { get; set; }
-        public static RestDataResponse<AddArticleDto> AddArticleDtoResponse { get; set; }
+        public static RestDataResponse<ArticleVM> AddArticleDtoResponse { get; set; }
+        public static RestResponse DeleteResponse { get; set; } 
+
+        public static RestResponse UpdateResponse { get; set; } 
         public static ErrorVM[] Errors { get; set; }
 
         public static async Task<bool> GetArticle(ApiHelper apihelper, string parameter)
@@ -69,7 +74,7 @@ namespace BlogBlazorUI.Service
 
         public static async Task<bool> GetArticles(ApiHelper apihelper, string parameter)
         {
-   
+
             bool result = false;
             ArticlesResponse = new RestDataResponse<ArticleDto>();
             try
@@ -105,14 +110,14 @@ namespace BlogBlazorUI.Service
             {
 
                 ArticlesResponse.Error = $"Get: {parameter}. {ex.ToString()}";
-                ArticlesResponse.StatusCode = HttpStatusCode.BadRequest; 
+                ArticlesResponse.StatusCode = HttpStatusCode.BadRequest;
             }
             return result;
         }
 
         public static async Task<bool> GetMostViewedArticles(ApiHelper apihelper, string parameter)
         {
-   
+
             bool result = false;
             MostViewedArticlesResponse = new RestDataResponse<List<ArticleVM>>();
             try
@@ -152,9 +157,9 @@ namespace BlogBlazorUI.Service
             return result;
         }
 
-        public static async Task<bool> GetListOfArchivedArticles(ApiHelper apihelper,string parameter)
+        public static async Task<bool> GetListOfArchivedArticles(ApiHelper apihelper, string parameter)
         {
-   
+
 
             bool result = false;
             ListOfArchivedArticlesResponse = new RestDataResponse<ArticleDto>();
@@ -244,9 +249,9 @@ namespace BlogBlazorUI.Service
         }
 
 
-        public static async Task<bool> GetArticlesAsCategory(ApiHelper apihelper,string parameter)
+        public static async Task<bool> GetArticlesAsCategory(ApiHelper apihelper, string parameter)
         {
-   
+
             bool result = false;
             ArticlesAsCategoryResponse = new RestDataResponse<ArticleDto>();
             try
@@ -287,10 +292,10 @@ namespace BlogBlazorUI.Service
 
         }
 
-        public static async Task<bool> AddArticle(ApiHelper apiHelper,object root,string parameter)
+        public static async Task<bool> AddArticle(ApiHelper apiHelper, object root, string parameter)
         {
             bool result = false;
-            AddArticleDtoResponse = new RestDataResponse<AddArticleDto>();
+            AddArticleDtoResponse = new RestDataResponse<ArticleVM>();
 
             //Convert the post to json
             string json = JsonConvert.SerializeObject(root);
@@ -311,7 +316,7 @@ namespace BlogBlazorUI.Service
                         //Get string data
                         string data = await response.Content.ReadAsStringAsync();
                         //Deserialize the data
-                        AddArticleDtoResponse = JsonConvert.DeserializeObject<RestDataResponse<AddArticleDto>>(data);
+                        AddArticleDtoResponse = JsonConvert.DeserializeObject<RestDataResponse<ArticleVM>>(data);
                         result = true;
 
                     }
@@ -319,7 +324,7 @@ namespace BlogBlazorUI.Service
                     {
                         string data = await response.Content.ReadAsStringAsync();
                         //Deserialize the data
-                        AddArticleDtoResponse = JsonConvert.DeserializeObject<RestDataResponse<AddArticleDto>>(data);
+                        AddArticleDtoResponse = JsonConvert.DeserializeObject<RestDataResponse<ArticleVM>>(data);
                         AddArticleDtoResponse.StatusCode = response.StatusCode;
                     }
                     if (response.StatusCode == HttpStatusCode.BadRequest)
@@ -337,11 +342,100 @@ namespace BlogBlazorUI.Service
                     // Add exception data
 
                     AddArticleDtoResponse.Error = $"Add: {parameter}. {ex.ToString()}";
-                    AddArticleDtoResponse.Message = "Internal Server Error";
                     AddArticleDtoResponse.StatusCode = HttpStatusCode.InternalServerError;
                 }
                 return result;
             }
+        }
+
+        public static async Task<bool> UpdateArticle(ApiHelper apiHelper, UpdateArticleDto article, string parameter)
+        {
+            bool result = false;
+            UpdateResponse = new RestResponse();
+
+            //Convert the post to json
+            string json = JsonConvert.SerializeObject(article);
+
+            //Send data as application/json data
+            using (StringContent content = new StringContent(json, Encoding.UTF8, MediaTypeNames.Application.Json))
+            {
+                try
+                {
+                    //Get the response
+
+                    HttpResponseMessage response = await apiHelper.httpClient.PutAsync(parameter, content);
+                    //Check the status code for the response
+
+                    if (response.IsSuccessStatusCode)
+                    {
+
+                        //Get string data
+                        string data = await response.Content.ReadAsStringAsync();
+                        //Deserialize the data
+                        UpdateResponse = JsonConvert.DeserializeObject<RestResponse>(data);
+                        result = true;
+
+                    }
+                    if (response.StatusCode == HttpStatusCode.NotFound)
+                    {
+                        string data = await response.Content.ReadAsStringAsync();
+                        //Deserialize the data
+                        UpdateResponse = JsonConvert.DeserializeObject<RestResponse>(data);
+                    }
+                    if (response.StatusCode == HttpStatusCode.BadRequest)
+                    {
+                        //Get string data
+                        string data = await response.Content.ReadAsStringAsync();
+                        Errors = System.Text.Json.JsonSerializer.Deserialize<ErrorVM[]>(data);
+                        AddArticleDtoResponse.StatusCode = response.StatusCode;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+
+                    // Add exception data
+
+                    AddArticleDtoResponse.Error = $"Update: {parameter}. {ex.ToString()}";
+                    AddArticleDtoResponse.StatusCode = HttpStatusCode.InternalServerError;
+                }
+                return result;
+            }
+        }
+
+        public static async Task<bool> DeleteArticle(ApiHelper apiHelper,string parameter)
+        {
+            bool result = false;
+            try
+            {
+                //Get the response
+                HttpResponseMessage response = await apiHelper.httpClient.DeleteAsync(parameter);
+
+                //Check the status code for the response
+
+                if (response.IsSuccessStatusCode)
+                {
+                    //Get string data
+                    string data = await response.Content.ReadAsStringAsync();
+                    DeleteResponse = JsonConvert.DeserializeObject<RestResponse>(data);
+                    result = true;
+                }
+                if(response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    string data = await response.Content.ReadAsStringAsync();
+                    DeleteResponse = JsonConvert.DeserializeObject<RestResponse>(data);
+                }
+            }
+            catch (Exception ex)
+            {
+                DeleteResponse.Error = ex.InnerException.Message;
+                DeleteResponse.IsSuccess = false;
+                DeleteResponse.Message = "Internal Server Error Occured.";
+                DeleteResponse.StatusCode = HttpStatusCode.InternalServerError;
+            }
+
+            //Return the response
+            return result;
         }
     }
 }

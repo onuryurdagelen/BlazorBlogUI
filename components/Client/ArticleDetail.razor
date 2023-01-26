@@ -9,7 +9,7 @@
             <div class="card-header p-2">
                 <div class="row mb-1">
                     <div class="col-md-12">
-                        <h2 class="mb-2">@ArticleVM.Name | @ArticleVM.Id</h2>
+                        <h2 class="mb-2">@ArticleVM.Name</h2>
                     </div>
                 </div>
                 <div class="row">
@@ -23,10 +23,32 @@
                 </div>
             </div>
             <div class="card-body">
-                <p>@ArticleVM.ContentMain</p>
+                <p>@((MarkupString)ArticleVM.ContentMain)</p>
             </div>
 
         </div>
+
+        <RadzenCard>
+            <RadzenStack class="mb-2" Orientation="Radzen.Orientation.Vertical">
+                <RadzenRow>
+                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" >Your Name</RadzenText>
+                    <RadzenTextBox Class="w-100" />
+                </RadzenRow>
+            </RadzenStack>
+            <RadzenStack class="mb-2" Orientation="Radzen.Orientation.Vertical">
+                <RadzenRow>
+                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" >Your Comment</RadzenText>
+                    <RadzenTextArea Class="w-100" />
+                </RadzenRow>
+            </RadzenStack>
+            <RadzenStack Orientation="Radzen.Orientation.Vertical">
+                <RadzenRow>
+                    <RadzenButton Text="Add Comment" ButtonStyle="Radzen.ButtonStyle.Primary" />
+                </RadzenRow>
+            </RadzenStack>
+        </RadzenCard>
+
+
     </div>
 }
 else

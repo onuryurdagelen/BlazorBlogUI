@@ -69,6 +69,10 @@
               "target": "Package",
               "version": "[7.2.4, )"
             },
+            "Faso.Blazor.SpinKit": {
+              "target": "Package",
+              "version": "[1.0.1, )"
+            },
             "Microsoft.AspNetCore.Components.Authorization": {
               "target": "Package",
               "version": "[6.0.12, )"

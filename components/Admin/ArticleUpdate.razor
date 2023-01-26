@@ -1,0 +1,160 @@
+﻿@page "/dashboard/updateArticle/{articleId:int}"
+@layout AdminLayout
+@using BlogBlazorUI.Models;
+@using BlogBlazorUI.Service;
+@inject ISnackbar Snackbar
+@inject HttpClient httpClient;
+
+<div class="row align-items-center justify-content-center">
+    <div class="col-md-8">
+
+        @if(UpdateArticleDto == null)
+        {
+            <div class="row justify-content-center align-items-center">
+                <BSSpinner></BSSpinner>
+            </div>
+        }
+
+        <RadzenCard>
+            <RadzenStack Orientation="Radzen.Orientation.Vertical">
+                <RadzenStack Orientation="Radzen.Orientation.Vertical">
+                    <RadzenRow>
+
+                        <RadzenText TextStyle="TextStyle.H5" TagName="TagName.H5" class="mb-0">
+                            <i class="fas fa-plus"></i> Update Article
+                        </RadzenText>
+                    </RadzenRow>
+                </RadzenStack>
+                <RadzenStack Orientation="Radzen.Orientation.Vertical">
+                    <RadzenRow>
+                        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" class="mb-0">Article Title</RadzenText>
+                        <RadzenTextBox @bind-Value="@UpdateArticleDto.Title" Class="w-100" />
+                    </RadzenRow>
+                </RadzenStack>
+                <RadzenStack Orientation="Radzen.Orientation.Vertical">
+                    <RadzenRow>
+                        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" class="mb-0">Article Content</RadzenText>
+                        <RadzenHtmlEditor @bind-Value="@UpdateArticleDto.Content" style="height: 500px; margin-bottom: 1rem;" UploadUrl="upload/image" />
+                    </RadzenRow>
+                </RadzenStack>
+                <RadzenStack Orientation="Radzen.Orientation.Vertical">
+                    <RadzenRow>
+                        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" class="mb-0">Article Category</RadzenText>
+                        <RadzenDropDown TextProperty="text" @bind-Value=@CategoryVM Data="@Categories" AllowClear="true" TValue="CategoryVM" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowFiltering="true" Class="w-100"
+                                        Placeholder="Select..." />
+                    </RadzenRow>
+                </RadzenStack>
+                <RadzenStack Orientation="Radzen.Orientation.Vertical">
+                    <RadzenRow>
+                        <RadzenColumn OffsetXL="6">
+                             <RadzenImage Path="@UpdateArticleDto.Picture"  Style="width: 100%;"/>
+                        </RadzenColumn>
+                             <RadzenColumn OffsetXL="6">
+                            <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" class="mb-0">Article Image</RadzenText>
+                            <InputUpload BrowserButtonIcon="fas fa-upload" @bind-Value="@formFile" OnChange="@OnFileChange"/>
+                        </RadzenColumn>
+                    </RadzenRow>
+                </RadzenStack>
+                <RadzenStack Orientation="Radzen.Orientation.Horizontal">
+                   <RadzenRow>
+                    <RadzenButton Click="@UpdateArticle" Text="Submit" ButtonStyle="Radzen.ButtonStyle.Primary" />
+                   </RadzenRow>
+                </RadzenStack>
+            </RadzenStack>
+        </RadzenCard>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int articleId { get; set; }
+
+    private UpdateArticleDto UpdateArticleDto { get; set; }
+    private CategoryVM CategoryVM { get; set; } = new CategoryVM();
+    private List<CategoryVM> Categories { get; set; } = new List<CategoryVM>();
+    private IBrowserFile formFile { get; set; }
+    private ErrorVM[] Errors { get; set; }
+
+
+    public async Task UpdateArticle()
+    {
+        UpdateArticleDto.CategoryId = CategoryVM.Id;
+
+        if (!await ArticleService.UpdateArticle(new ApiHelper(), UpdateArticleDto, $"Articles/{UpdateArticleDto.ArticleId}"))
+        {
+            if(ArticleService.UpdateResponse.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+
+                Errors = ArticleService.Errors;
+                string errors = "";
+                foreach (var error in Errors)
+                {
+                    foreach (var val in error.value)
+                    {
+                        errors += "* " + val + "\n";
+                    }
+                }
+                Snackbar.Add(errors, Severity.Warning);
+            }
+            if(ArticleService.UpdateResponse.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                Snackbar.Add(ArticleService.UpdateResponse.Message, Severity.Error);
+            }   
+        }
+        else
+        {
+            Snackbar.Add(ArticleService.UpdateResponse.Message, Severity.Success);
+        }
+    }
+
+    private async Task OnFileChange(UploadFile file)
+    {
+        formFile = file.File;
+        UpdateArticleDto.UploadedFile = new UploadedFileDto();
+
+
+        using (var ms = new MemoryStream())
+        {
+            await formFile.OpenReadStream().CopyToAsync(ms);
+
+            UpdateArticleDto.UploadedFile.FileName = formFile.Name;
+            UpdateArticleDto.UploadedFile.FileSize = formFile.Size;
+            UpdateArticleDto.UploadedFile.FileExtension = formFile.ContentType;
+            UpdateArticleDto.UploadedFile.FileContent = ms.ToArray();
+        }
+        string s3 = Convert.ToBase64String(UpdateArticleDto.UploadedFile.FileContent);
+        var imageDataUrl = $"data:{UpdateArticleDto.UploadedFile.FileExtension};base64,{Convert.ToBase64String(UpdateArticleDto.UploadedFile.FileContent)}";
+        UpdateArticleDto.Picture = imageDataUrl;
+        StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (UpdateArticleDto == null)
+            UpdateArticleDto = new UpdateArticleDto();
+
+        if (!await ArticleService.GetArticle(new ApiHelper(), $"Articles/{articleId}"))
+        {
+            //hata mesajı gönder
+        }
+        ArticleVM article = ArticleService.ArticleResponse.Data;
+        UpdateArticleDto.Title = article.Name;
+        UpdateArticleDto.Content = article.ContentMain;
+        UpdateArticleDto.CategoryId = article.CategoryId;
+        UpdateArticleDto.Picture = article.Picture;
+        UpdateArticleDto.ImagePath = article.ImagePath;
+        UpdateArticleDto.ArticleId = article.Id;
+
+        Categories = await httpClient.GetFromJsonAsync<List<CategoryVM>>("Categories");
+        CategoryVM.Id = Categories[0].Id;
+        CategoryVM.Name = Categories[0].Name;
+
+        CategoryVM = await httpClient.GetFromJsonAsync<CategoryVM>($"Categories/{UpdateArticleDto.CategoryId}");
+
+        StateHasChanged();
+
+
+    }
+
+
+}

@@ -172,6 +172,19 @@
           "buildMultiTargeting/BootstrapBlazor.props": {}
         }
       },
+      "Faso.Blazor.SpinKit/1.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "3.0.0",
+          "Microsoft.AspNetCore.Components.Web": "3.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Faso.Blazor.SpinKit.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Faso.Blazor.SpinKit.dll": {}
+        }
+      },
       "LibSassBuilder/2.0.1": {
         "type": "package",
         "build": {
@@ -1255,6 +1268,19 @@
         },
         "buildMultiTargeting": {
           "buildMultiTargeting/BootstrapBlazor.props": {}
+        }
+      },
+      "Faso.Blazor.SpinKit/1.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "3.0.0",
+          "Microsoft.AspNetCore.Components.Web": "3.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Faso.Blazor.SpinKit.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Faso.Blazor.SpinKit.dll": {}
         }
       },
       "LibSassBuilder/2.0.1": {
@@ -2436,6 +2462,18 @@
         "staticwebassets/modules/upload.js",
         "staticwebassets/modules/validate-form.js",
         "staticwebassets/modules/validate.js"
+      ]
+    },
+    "Faso.Blazor.SpinKit/1.0.1": {
+      "sha512": "GP1vDDfafbkv0/2RN/Y6kmsWphfajxoejQsA+rowDkhlghowbCjdQk2Wof/bW+5s/zcCk6uLDcip/CjCRWXpOg==",
+      "type": "package",
+      "path": "faso.blazor.spinkit/1.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "faso.blazor.spinkit.1.0.1.nupkg.sha512",
+        "faso.blazor.spinkit.nuspec",
+        "lib/netstandard2.0/Faso.Blazor.SpinKit.dll"
       ]
     },
     "LibSassBuilder/2.0.1": {
@@ -4097,6 +4135,7 @@
       "Blazored.Toast >= 4.0.0",
       "Blazorise.Snackbar >= 1.1.5",
       "BootstrapBlazor >= 7.2.4",
+      "Faso.Blazor.SpinKit >= 1.0.1",
       "Microsoft.AspNetCore.Components.Authorization >= 6.0.12",
       "Microsoft.AspNetCore.Components.WebAssembly >= 6.0.10",
       "Microsoft.AspNetCore.Components.WebAssembly.DevServer >= 6.0.10",
@@ -4176,6 +4215,10 @@
           "BootstrapBlazor": {
             "target": "Package",
             "version": "[7.2.4, )"
+          },
+          "Faso.Blazor.SpinKit": {
+            "target": "Package",
+            "version": "[1.0.1, )"
           },
           "Microsoft.AspNetCore.Components.Authorization": {
             "target": "Package",

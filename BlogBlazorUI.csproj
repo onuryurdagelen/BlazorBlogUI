@@ -14,6 +14,7 @@
     <PackageReference Include="BlazorSpinner" Version="1.3.0" />
     <PackageReference Include="BlazorStrap.V5" Version="5.1.100" />
     <PackageReference Include="BootstrapBlazor" Version="7.2.4" />
+    <PackageReference Include="Faso.Blazor.SpinKit" Version="1.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.10" PrivateAssets="all" />

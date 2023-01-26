@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "a3MrCfyls9AP53KIvtb3PXQePE1QaMMjYhO04QaTMNc=",
+  "Hash": "+jZhsC0WiwLZQdtG++0ZKw2pZCC6iIjSqPmrBK2pQIs=",
   "Source": "BlogBlazorUI",
   "BasePath": "/",
   "Mode": "Root",
@@ -2327,6 +2327,23 @@
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "C:\\Program Files\\dotnet\\packs\\Microsoft.NETCore.App.Runtime.Mono.browser-wasm\\6.0.11\\runtimes\\browser-wasm\\native\\dotnet.wasm"
+    },
+    {
+      "Identity": "C:\\Users\\Administrator\\Desktop\\AngularBlog\\BlogBlazorUI\\BlogBlazorUI\\bin\\Debug\\net6.0\\wwwroot\\_framework\\Faso.Blazor.SpinKit.dll",
+      "SourceId": "BlogBlazorUI",
+      "SourceType": "Computed",
+      "ContentRoot": "C:\\Users\\Administrator\\Desktop\\AngularBlog\\BlogBlazorUI\\BlogBlazorUI\\bin\\Debug\\net6.0\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "_framework/Faso.Blazor.SpinKit.dll",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "BlazorWebAssemblyResource",
+      "AssetTraitValue": "runtime",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "C:\\Users\\Administrator\\.nuget\\packages\\faso.blazor.spinkit\\1.0.1\\lib\\netstandard2.0\\Faso.Blazor.SpinKit.dll"
     },
     {
       "Identity": "C:\\Users\\Administrator\\Desktop\\AngularBlog\\BlogBlazorUI\\BlogBlazorUI\\bin\\Debug\\net6.0\\wwwroot\\_framework\\icudt.dat",
@@ -8481,6 +8498,23 @@
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "C:\\Users\\Administrator\\Desktop\\AngularBlog\\BlogBlazorUI\\BlogBlazorUI\\bin\\Debug\\net6.0\\wwwroot\\_framework\\System.Text.Encoding.CodePages.dll"
+    },
+    {
+      "Identity": "C:\\Users\\Administrator\\Desktop\\AngularBlog\\BlogBlazorUI\\BlogBlazorUI\\obj\\Debug\\net6.0\\build-gz\\OzGvJXHf.gz",
+      "SourceId": "BlogBlazorUI",
+      "SourceType": "Computed",
+      "ContentRoot": "C:\\Users\\Administrator\\Desktop\\AngularBlog\\BlogBlazorUI\\BlogBlazorUI\\bin\\Debug\\net6.0\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "_framework/Faso.Blazor.SpinKit.dll.gz",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "RelatedAsset": "C:\\Users\\Administrator\\Desktop\\AngularBlog\\BlogBlazorUI\\BlogBlazorUI\\bin\\Debug\\net6.0\\wwwroot\\_framework\\Faso.Blazor.SpinKit.dll",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "C:\\Users\\Administrator\\Desktop\\AngularBlog\\BlogBlazorUI\\BlogBlazorUI\\bin\\Debug\\net6.0\\wwwroot\\_framework\\Faso.Blazor.SpinKit.dll"
     },
     {
       "Identity": "C:\\Users\\Administrator\\Desktop\\AngularBlog\\BlogBlazorUI\\BlogBlazorUI\\obj\\Debug\\net6.0\\build-gz\\p6KnL1wb.gz",

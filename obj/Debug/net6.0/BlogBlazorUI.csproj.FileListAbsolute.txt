@@ -934,3 +934,7 @@ C:\Users\Administrator\Desktop\AngularBlog\BlogBlazorUI\BlogBlazorUI\bin\Debug\n
 C:\Users\Administrator\Desktop\AngularBlog\BlogBlazorUI\BlogBlazorUI\obj\Debug\net6.0\build-gz\Ec1PWo18.gz
 C:\Users\Administrator\Desktop\AngularBlog\BlogBlazorUI\BlogBlazorUI\obj\Debug\net6.0\build-gz\viUSYQzF.gz
 C:\Users\Administrator\Desktop\AngularBlog\BlogBlazorUI\BlogBlazorUI\bin\Debug\net6.0\appsettings.json
+C:\Users\Administrator\Desktop\AngularBlog\BlogBlazorUI\BlogBlazorUI\bin\Debug\net6.0\wwwroot\_framework\Faso.Blazor.SpinKit.dll
+C:\Users\Administrator\Desktop\AngularBlog\BlogBlazorUI\BlogBlazorUI\bin\Debug\net6.0\wwwroot\_framework\Faso.Blazor.SpinKit.dll.gz
+C:\Users\Administrator\Desktop\AngularBlog\BlogBlazorUI\BlogBlazorUI\bin\Debug\net6.0\Faso.Blazor.SpinKit.dll
+C:\Users\Administrator\Desktop\AngularBlog\BlogBlazorUI\BlogBlazorUI\obj\Debug\net6.0\build-gz\OzGvJXHf.gz

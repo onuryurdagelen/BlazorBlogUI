@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "7AbLIBMBMFhBVmawkdtMsK58obEhn0e6ye9ik9ol4KhVwolaiud2juYUEGHJD0eCekx5v9JVAL6x+q/m+Dz6qQ==",
+  "dgSpecHash": "DpykCwMF3BCyNN2dJmNWqgGl2RFKTmAax7bKp5g7LrpFwhqmHTormqshzp2Lyuam2phgtwxGmDO6zAm3PGo3oQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Administrator\\Desktop\\AngularBlog\\BlogBlazorUI\\BlogBlazorUI\\BlogBlazorUI.csproj",
   "expectedPackageFiles": [
@@ -13,6 +13,7 @@
     "C:\\Users\\Administrator\\.nuget\\packages\\blazorstrap\\5.1.100\\blazorstrap.5.1.100.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\blazorstrap.v5\\5.1.100\\blazorstrap.v5.5.1.100.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\bootstrapblazor\\7.2.4\\bootstrapblazor.7.2.4.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\faso.blazor.spinkit\\1.0.1\\faso.blazor.spinkit.1.0.1.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\libsassbuilder\\2.0.1\\libsassbuilder.2.0.1.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.aspnetcore.authorization\\6.0.12\\microsoft.aspnetcore.authorization.6.0.12.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.aspnetcore.components\\6.0.12\\microsoft.aspnetcore.components.6.0.12.nupkg.sha512",
